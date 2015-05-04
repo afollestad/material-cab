@@ -175,7 +175,6 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
                 setCloseDrawable(mCloseDrawable);
             setBackgroundColor(mBackgroundColor);
             setContentInsetStart(mContentInsetStart);
-            mAppBar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
             mAppBar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
