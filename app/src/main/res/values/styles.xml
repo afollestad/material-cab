@@ -1,0 +1,19 @@
+<resources>
+
+    <style name="AppTheme_Parent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="list_selector">@drawable/list_selector</item>
+    </style>
+
+    <style name="AppTheme" parent="AppTheme_Parent">
+        <item name="colorPrimary">@color/indigo_500</item>
+        <item name="colorPrimaryDark">@color/indigo_700</item>
+        <item name="colorAccent">@color/yellow_500</item>
+
+        <!--<item name="mcab_title">@string/hello_world</item>-->
+        <!--<item name="mcab_contentinset_start">56dp</item>-->
+        <!--<item name="mcab_background_color">?colorPrimary</item>-->
+        <item name="mcab_popup_theme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="mcab_menu">@menu/menu_cab</item>
+    </style>
+
+</resources>

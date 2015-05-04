@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/copy"
+        android:icon="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:title="@string/copy"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/cut"
+        android:icon="@drawable/abc_ic_menu_cut_mtrl_alpha"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/paste"
+        android:icon="@drawable/abc_ic_menu_paste_mtrl_am_alpha"
+        android:title="@string/paste"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/select_all"
+        android:icon="@drawable/abc_ic_menu_selectall_mtrl_alpha"
+        android:title="@string/select_all"
+        app:showAsAction="ifRoom" />
+
+</menu>

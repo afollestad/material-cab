@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="mcab_toolbar_elevation">4dp</dimen>
+    <dimen name="mcab_default_content_inset">72dp</dimen>
+
+</resources>

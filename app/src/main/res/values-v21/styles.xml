@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="AppTheme_Parent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="list_selector">@drawable/list_ripple_selector</item>
+    </style>
+
+</resources>

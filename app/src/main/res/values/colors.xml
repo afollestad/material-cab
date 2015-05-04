@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="indigo_500">#3F51B5</color>
+    <color name="indigo_700">#303F9F</color>
+    <color name="yellow_500">#FFEB3B</color>
+
+    <color name="activated_selected_light" type="color">#3e000000</color>
+
+</resources>
