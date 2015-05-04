@@ -12,7 +12,7 @@ This goes in your dependencies (in addition to your other dependencies obviously
 
 ```Gradle
 dependencies {
-    compile 'com.afollestad:material-cab:0.0.6'
+    compile 'com.afollestad:material-cab:0.1.0'
 }
 ```
 
