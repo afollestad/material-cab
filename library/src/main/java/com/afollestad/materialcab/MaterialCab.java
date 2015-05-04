@@ -67,6 +67,8 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         mMenu = Util.resolveResId(mContext, R.attr.mcab_menu, 0);
         mBackgroundColor = Util.resolveColor(mContext, R.attr.mcab_background_color,
                 Util.resolveColor(mContext, R.attr.colorPrimary, Color.GRAY));
+        if (mAppBar != null && mAppBar.getMenu() != null)
+            mAppBar.getMenu().clear();
         return this;
     }
 
@@ -90,8 +92,10 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     public MaterialCab setMenu(@MenuRes int menuRes) {
         mMenu = menuRes;
         if (mAppBar != null) {
-            mAppBar.getMenu().clear();
-            mAppBar.inflateMenu(menuRes);
+            if (mAppBar.getMenu() != null)
+                mAppBar.getMenu().clear();
+            if (menuRes != 0)
+                mAppBar.inflateMenu(menuRes);
             mAppBar.setOnMenuItemClickListener(this);
         }
         return this;
