@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
     }
 
     @Override
-    public void onCabCreated(MaterialCab cab, Menu menu) {
+    public boolean onCabCreated(MaterialCab cab, Menu menu) {
         // Makes the icons in the overflow menu visible
         if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
             try {
@@ -81,16 +81,18 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
                 ignored.printStackTrace();
             }
         }
+        return true; // allow creation
     }
 
     @Override
     public boolean onCabItemClicked(MenuItem item) {
         showToast((String) item.getTitle());
-        return false;
+        return true;
     }
 
     @Override
-    public void onCabFinished(MaterialCab cab) {
+    public boolean onCabFinished(MaterialCab cab) {
         mAdapter.clearSelected();
+        return true; // allow destruction
     }
 }

@@ -19,11 +19,11 @@ import java.io.Serializable;
 public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListener {
 
     public interface Callback {
-        void onCabCreated(MaterialCab cab, Menu menu);
+        boolean onCabCreated(MaterialCab cab, Menu menu);
 
         boolean onCabItemClicked(MenuItem item);
 
-        void onCabFinished(MaterialCab cab);
+        boolean onCabFinished(MaterialCab cab);
     }
 
     @Override
@@ -74,8 +74,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
 
     public MaterialCab start(Callback callback) {
         mCallback = callback;
-        attach();
-        invalidateVisibility(true);
+        invalidateVisibility(attach());
         return this;
     }
 
@@ -127,9 +126,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     public void finish() {
-        invalidateVisibility(false);
-        if (mCallback != null)
-            mCallback.onCabFinished(this);
+        invalidateVisibility(!(mCallback == null || mCallback.onCabFinished(this)));
     }
 
     private void invalidateVisibility(boolean active) {
@@ -138,7 +135,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
                 View.VISIBLE : View.GONE);
     }
 
-    private void attach() {
+    private boolean attach() {
         final View attacher = mContext.findViewById(mAttacherId);
         if (mContext.findViewById(R.id.mcab_appbar) != null) {
             mAppBar = (Toolbar) mContext.findViewById(R.id.mcab_appbar);
@@ -167,8 +164,8 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
                     finish();
                 }
             });
-            if (mCallback != null)
-                mCallback.onCabCreated(this, mAppBar.getMenu());
+            return mCallback == null || mCallback.onCabCreated(this, mAppBar.getMenu());
         }
+        return false;
     }
 }
