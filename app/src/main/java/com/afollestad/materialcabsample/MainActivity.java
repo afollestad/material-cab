@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
 
     @Override
     public void onCabCreated(MaterialCab cab, Menu menu) {
+        // Makes the icons in the overflow menu visible
         if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
             try {
                 Field field = menu.getClass().
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
                 field.setAccessible(true);
                 field.setBoolean(menu, true);
             } catch (Exception ignored) {
+                ignored.printStackTrace();
             }
         }
     }

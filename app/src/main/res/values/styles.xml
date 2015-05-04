@@ -12,7 +12,7 @@
         <!--<item name="mcab_title">@string/hello_world</item>-->
         <!--<item name="mcab_contentinset_start">56dp</item>-->
         <!--<item name="mcab_background_color">?colorPrimary</item>-->
-        <item name="mcab_popup_theme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="mcab_popup_theme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="mcab_menu">@menu/menu_cab</item>
     </style>
 

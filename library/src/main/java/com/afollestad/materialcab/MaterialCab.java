@@ -71,9 +71,9 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     public MaterialCab start(Callback callback) {
+        mCallback = callback;
         attach();
         invalidateVisibility(true);
-        mCallback = callback;
         return this;
     }
 
