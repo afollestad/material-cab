@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.afollestad.material_cab"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "0.0.1"
