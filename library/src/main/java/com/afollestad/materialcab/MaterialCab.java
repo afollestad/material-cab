@@ -2,6 +2,7 @@ package com.afollestad.materialcab;
 
 import android.graphics.Color;
 import android.support.annotation.DimenRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     private int mContentInsetStart;
     private int mMenu;
     private int mBackgroundColor;
+    private int mCloseDrawable;
 
     public MaterialCab(AppCompatActivity context, int attacherId) {
         mContext = context;
@@ -67,6 +69,9 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         mMenu = Util.resolveResId(mContext, R.attr.mcab_menu, 0);
         mBackgroundColor = Util.resolveColor(mContext, R.attr.mcab_background_color,
                 Util.resolveColor(mContext, R.attr.colorPrimary, Color.GRAY));
+        mCloseDrawable = Util.resolveResId(mContext, R.attr.mcab_close_drawable,
+                Util.resolveResId(mContext, R.attr.actionModeCloseDrawable,
+                        R.drawable.abc_ic_ab_back_mtrl_am_alpha));
         if (mAppBar != null && mAppBar.getMenu() != null)
             mAppBar.getMenu().clear();
         return this;
@@ -125,6 +130,13 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         return this;
     }
 
+    public MaterialCab setCloseDrawable(@DrawableRes int closeDrawable) {
+        mCloseDrawable = closeDrawable;
+        if (mAppBar != null)
+            mAppBar.setNavigationIcon(closeDrawable);
+        return this;
+    }
+
     public Menu getMenu() {
         return mAppBar != null ? mAppBar.getMenu() : null;
     }
@@ -159,6 +171,8 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
                 mAppBar.setPopupTheme(mPopupTheme);
             if (mMenu != 0)
                 setMenu(mMenu);
+            if (mCloseDrawable != 0)
+                setCloseDrawable(mCloseDrawable);
             setBackgroundColor(mBackgroundColor);
             setContentInsetStart(mContentInsetStart);
             mAppBar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
