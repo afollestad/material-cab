@@ -36,6 +36,16 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
 
         for (int i = 0; i < 80; i++)
             mAdapter.add("Item " + i);
+
+        if (savedInstanceState != null)
+            mCab = MaterialCab.restoreState(savedInstanceState, this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mCab != null)
+            mCab.saveState(outState);
     }
 
     private void showToast(String text) {

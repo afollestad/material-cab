@@ -1,6 +1,7 @@
 package com.afollestad.materialcab;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
@@ -34,15 +35,16 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
 
     private transient AppCompatActivity mContext;
     private transient Toolbar mAppBar;
-    private final int mAttacherId;
-    private Callback mCallback;
+    private transient Callback mCallback;
 
-    private CharSequence mFutureTitle;
+    private int mAttacherId;
+    private CharSequence mTitle;
     private int mPopupTheme;
     private int mContentInsetStart;
     private int mMenu;
     private int mBackgroundColor;
     private int mCloseDrawable;
+    private boolean mActive;
 
     public MaterialCab(AppCompatActivity context, int attacherId) {
         mContext = context;
@@ -55,13 +57,11 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     public boolean isActive() {
-        if (mContext == null) return false;
-        View mcab = mContext.findViewById(R.id.mcab_appbar);
-        return mcab != null && mcab.getVisibility() == View.VISIBLE;
+        return mActive;
     }
 
     public MaterialCab reset() {
-        mFutureTitle = Util.resolveString(mContext, R.attr.mcab_title);
+        mTitle = Util.resolveString(mContext, R.attr.mcab_title);
         mPopupTheme = Util.resolveResId(mContext, R.attr.mcab_popup_theme,
                 R.style.ThemeOverlay_AppCompat_Light);
         mContentInsetStart = Util.resolveDimension(mContext, R.attr.mcab_contentinset_start,
@@ -84,12 +84,9 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     public MaterialCab setTitle(CharSequence title) {
-        if (mAppBar == null) {
-            mFutureTitle = title;
-            return this;
-        }
-        mAppBar.setTitle(title);
-        mFutureTitle = null;
+        mTitle = title;
+        if (mAppBar != null)
+            mAppBar.setTitle(title);
         return this;
     }
 
@@ -149,6 +146,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         if (mAppBar == null) return;
         mAppBar.setVisibility(active ?
                 View.VISIBLE : View.GONE);
+        mActive = active;
     }
 
     private boolean attach() {
@@ -162,11 +160,13 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
             mAppBar = (Toolbar) stub.inflate();
         } else if (attacher instanceof Toolbar) {
             mAppBar = (Toolbar) attacher;
+        } else {
+            throw new IllegalStateException("MaterialCab was unable to attach to your Activity, attacher stub doesn't exist.");
         }
 
         if (mAppBar != null) {
-            if (mFutureTitle != null)
-                setTitle(mFutureTitle);
+            if (mTitle != null)
+                setTitle(mTitle);
             if (mPopupTheme != 0)
                 mAppBar.setPopupTheme(mPopupTheme);
             if (mMenu != 0)
@@ -184,5 +184,18 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
             return mCallback == null || mCallback.onCabCreated(this, mAppBar.getMenu());
         }
         return false;
+    }
+
+    public void saveState(Bundle dest) {
+        dest.putSerializable("[mcab_state]", this);
+    }
+
+    public static MaterialCab restoreState(Bundle source, Callback callback) {
+        if (!source.containsKey("[mcab_state]"))
+            return null;
+        MaterialCab cab = (MaterialCab) source.getSerializable("[mcab_state]");
+        if (cab.mActive)
+            cab.start(callback);
+        return cab;
     }
 }
