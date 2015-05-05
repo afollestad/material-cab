@@ -12,14 +12,6 @@ lets you dynamically change theme properties at runtime from code.
 
 ## Gradle Dependency
 
-You will need to directly reference my Bintray repository since this library is not hosted on jCenter:
-
-```Gradle
-repositories {
-    maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
-}
-```
-
 This goes in your dependencies (in addition to your other dependencies obviously):
 
 ```Gradle
@@ -29,6 +21,14 @@ dependencies {
 ```
 
 [ ![Download](https://api.bintray.com/packages/drummer-aidan/maven/material-cab/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-cab/_latestVersion)
+
+If you have issues resolving the library, add this to your Gradle file too:
+
+```Gradle
+repositories {
+    maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
+}
+```
 
 ## Attacher
 
