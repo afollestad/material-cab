@@ -8,10 +8,12 @@ import android.support.annotation.MenuRes;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewStub;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.io.Serializable;
 
@@ -153,19 +155,17 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         final View attacher = mContext.findViewById(mAttacherId);
         if (mContext.findViewById(R.id.mcab_toolbar) != null) {
             mToolbar = (Toolbar) mContext.findViewById(R.id.mcab_toolbar);
-        } else if (attacher instanceof ViewStub) {
-            ViewStub stub = (ViewStub) attacher;
-            stub.setLayoutResource(R.layout.mcab_toolbar);
-            stub.setInflatedId(R.id.mcab_toolbar);
-            mToolbar = (Toolbar) stub.inflate();
-        } else if (attacher instanceof Toolbar) {
-            mToolbar = (Toolbar) attacher;
-        } else {
-            throw new IllegalStateException("MaterialCab was unable to attach to your Activity, attacher stub doesn't exist.");
+            if (mToolbar.getParent() != null)
+                ((ViewGroup) mToolbar.getParent()).removeView(mToolbar);
+        } else if (!(attacher instanceof FrameLayout)) {
+            throw new IllegalStateException("MaterialCab was unable to attach to your Activity, you must specify an attacher FrameLayout.");
         }
 
+        mToolbar = (Toolbar) LayoutInflater.from(mContext).inflate(
+                R.layout.mcab_toolbar, (FrameLayout) attacher, false);
+        ((FrameLayout) attacher).addView(mToolbar);
+
         if (mToolbar != null) {
-            mToolbar.bringToFront();
             if (mTitle != null)
                 setTitle(mTitle);
             if (mPopupTheme != 0)
@@ -192,7 +192,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     public static MaterialCab restoreState(Bundle source, Callback callback) {
-        if (!source.containsKey("[mcab_state]"))
+        if (source == null || !source.containsKey("[mcab_state]"))
             return null;
         MaterialCab cab = (MaterialCab) source.getSerializable("[mcab_state]");
         if (cab.mActive)

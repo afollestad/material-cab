@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/toolbar_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -20,11 +21,6 @@
             app:contentInsetStart="@dimen/mcab_default_content_inset"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             tools:ignore="UnusedAttribute" />
-
-        <ViewStub
-            android:id="@+id/cab_stub"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize" />
 
     </FrameLayout>
 

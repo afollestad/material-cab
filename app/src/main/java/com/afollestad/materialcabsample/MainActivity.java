@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialcab.MaterialCab;
@@ -38,10 +39,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
             mCab = MaterialCab.restoreState(savedInstanceState, this);
             mAdapter.restoreState(savedInstanceState);
         } else {
-            for (int i = 0; i < 80; i++)
+            for (int i = 0; i <= 80; i++)
                 mAdapter.add("Item " + i);
         }
-
     }
 
     @Override
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
             return;
         }
         if (mCab == null)
-            mCab = new MaterialCab(this, R.id.cab_stub).start(this);
+            mCab = new MaterialCab(this, R.id.toolbar_frame).start(this);
         else if (!mCab.isActive())
             mCab.reset().start(this);
         mCab.setTitle(getString(R.string.x_selected, mAdapter.getSelectedCount()));
@@ -113,10 +113,11 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (mCab != null) {
+        if (mCab != null && mCab.isActive()) {
             mCab.finish();
             mCab = null;
+        } else {
+            super.onBackPressed();
         }
     }
 }
