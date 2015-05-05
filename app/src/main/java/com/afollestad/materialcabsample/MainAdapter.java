@@ -1,5 +1,6 @@
 package com.afollestad.materialcabsample;
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         void onIconClicked(int index);
     }
 
-    private final List<String> mItems;
-    private final List<Integer> mSelected;
+    private ArrayList<String> mItems;
+    private ArrayList<Integer> mSelected;
     private Callback mCallback;
 
     public MainAdapter(Callback callback) {
@@ -42,6 +43,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         else
             mSelected.remove((Integer) index);
         notifyItemChanged(index);
+    }
+
+    public void restoreState(Bundle in) {
+        //noinspection unchecked
+        mItems = (ArrayList<String>) in.getSerializable("[main_adapter_items]");
+        //noinspection unchecked
+        mSelected = (ArrayList<Integer>) in.getSerializable("[main_adapter_selected]");
+        notifyDataSetChanged();
+    }
+
+    public void saveState(Bundle out) {
+        out.putSerializable("[main_adapter_items]", mItems);
+        out.putSerializable("[main_adapter_selected]", mSelected);
     }
 
     public void clearSelected() {

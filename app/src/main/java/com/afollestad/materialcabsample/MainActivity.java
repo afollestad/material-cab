@@ -34,11 +34,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
 
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
 
-        for (int i = 0; i < 80; i++)
-            mAdapter.add("Item " + i);
-
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             mCab = MaterialCab.restoreState(savedInstanceState, this);
+            mAdapter.restoreState(savedInstanceState);
+        } else {
+            for (int i = 0; i < 80; i++)
+                mAdapter.add("Item " + i);
+        }
+
     }
 
     @Override
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
         super.onSaveInstanceState(outState);
         if (mCab != null)
             mCab.saveState(outState);
+        if (mAdapter != null)
+            mAdapter.saveState(outState);
     }
 
     private void showToast(String text) {
@@ -104,5 +109,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
     public boolean onCabFinished(MaterialCab cab) {
         mAdapter.clearSelected();
         return true; // allow destruction
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mCab != null) {
+            mCab.finish();
+            mCab = null;
+        }
     }
 }

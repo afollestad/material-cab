@@ -165,6 +165,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         }
 
         if (mToolbar != null) {
+            mToolbar.bringToFront();
             if (mTitle != null)
                 setTitle(mTitle);
             if (mPopupTheme != 0)
