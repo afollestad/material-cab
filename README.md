@@ -27,7 +27,7 @@ dependencies {
 This library attaches your `Activity` by taking the place of a `ViewStub` in your Activity layout.
 For an example, this is the main layout of the sample:
 
-``xml
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
