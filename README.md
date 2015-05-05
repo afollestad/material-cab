@@ -32,8 +32,8 @@ dependencies {
 
 ## Attacher
 
-This library attaches your `Activity` by taking the place of a `ViewStub` in your Activity layout.
-For an example, this is the main layout of the sample:
+This library attaches to your `Activity` by taking the place of a `ViewStub` in your Activity layout.
+For an example, this is the main layout of the sample project:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -84,7 +84,7 @@ MaterialCab cab = new MaterialCab(this, R.id.cab_stub)
 
 R.id.cab_stub references the `ViewStub`, which is replaced with the CAB toolbar when `start()` is called.
 
-Note that the parameter in `start()` is a callback which receives CAB events.
+Note that the parameter in `start()` is a Callback interface implementer which receives CAB events.
 
 ## Callback
 
