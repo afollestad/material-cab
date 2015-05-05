@@ -33,7 +33,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     private transient AppCompatActivity mContext;
-    private transient Toolbar mAppBar;
+    private transient Toolbar mToolbar;
     private final int mAttacherId;
     private Callback mCallback;
 
@@ -56,7 +56,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
 
     public boolean isActive() {
         if (mContext == null) return false;
-        View mcab = mContext.findViewById(R.id.mcab_appbar);
+        View mcab = mContext.findViewById(R.id.mcab_toolbar);
         return mcab != null && mcab.getVisibility() == View.VISIBLE;
     }
 
@@ -72,8 +72,8 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         mCloseDrawable = Util.resolveResId(mContext, R.attr.mcab_close_drawable,
                 Util.resolveResId(mContext, R.attr.actionModeCloseDrawable,
                         R.drawable.abc_ic_ab_back_mtrl_am_alpha));
-        if (mAppBar != null && mAppBar.getMenu() != null)
-            mAppBar.getMenu().clear();
+        if (mToolbar != null && mToolbar.getMenu() != null)
+            mToolbar.getMenu().clear();
         return this;
     }
 
@@ -84,38 +84,38 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     public MaterialCab setTitle(CharSequence title) {
-        if (mAppBar == null) {
+        if (mToolbar == null) {
             mFutureTitle = title;
             return this;
         }
-        mAppBar.setTitle(title);
+        mToolbar.setTitle(title);
         mFutureTitle = null;
         return this;
     }
 
     public MaterialCab setMenu(@MenuRes int menuRes) {
         mMenu = menuRes;
-        if (mAppBar != null) {
-            if (mAppBar.getMenu() != null)
-                mAppBar.getMenu().clear();
+        if (mToolbar != null) {
+            if (mToolbar.getMenu() != null)
+                mToolbar.getMenu().clear();
             if (menuRes != 0)
-                mAppBar.inflateMenu(menuRes);
-            mAppBar.setOnMenuItemClickListener(this);
+                mToolbar.inflateMenu(menuRes);
+            mToolbar.setOnMenuItemClickListener(this);
         }
         return this;
     }
 
     public MaterialCab setPopupMenuTheme(@StyleRes int themeRes) {
         mPopupTheme = themeRes;
-        if (mAppBar != null)
-            mAppBar.setPopupTheme(themeRes);
+        if (mToolbar != null)
+            mToolbar.setPopupTheme(themeRes);
         return this;
     }
 
     public MaterialCab setContentInsetStart(int contentInset) {
         mContentInsetStart = contentInset;
-        if (mAppBar != null)
-            mAppBar.setContentInsetsRelative(contentInset, 0);
+        if (mToolbar != null)
+            mToolbar.setContentInsetsRelative(contentInset, 0);
         return this;
     }
 
@@ -125,20 +125,20 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
 
     public MaterialCab setBackgroundColor(int color) {
         mBackgroundColor = color;
-        if (mAppBar != null)
-            mAppBar.setBackgroundColor(color);
+        if (mToolbar != null)
+            mToolbar.setBackgroundColor(color);
         return this;
     }
 
     public MaterialCab setCloseDrawable(@DrawableRes int closeDrawable) {
         mCloseDrawable = closeDrawable;
-        if (mAppBar != null)
-            mAppBar.setNavigationIcon(closeDrawable);
+        if (mToolbar != null)
+            mToolbar.setNavigationIcon(closeDrawable);
         return this;
     }
 
     public Menu getMenu() {
-        return mAppBar != null ? mAppBar.getMenu() : null;
+        return mToolbar != null ? mToolbar.getMenu() : null;
     }
 
     public void finish() {
@@ -146,42 +146,42 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
     }
 
     private void invalidateVisibility(boolean active) {
-        if (mAppBar == null) return;
-        mAppBar.setVisibility(active ?
+        if (mToolbar == null) return;
+        mToolbar.setVisibility(active ?
                 View.VISIBLE : View.GONE);
     }
 
     private boolean attach() {
         final View attacher = mContext.findViewById(mAttacherId);
-        if (mContext.findViewById(R.id.mcab_appbar) != null) {
-            mAppBar = (Toolbar) mContext.findViewById(R.id.mcab_appbar);
+        if (mContext.findViewById(R.id.mcab_toolbar) != null) {
+            mToolbar = (Toolbar) mContext.findViewById(R.id.mcab_toolbar);
         } else if (attacher instanceof ViewStub) {
             ViewStub stub = (ViewStub) attacher;
-            stub.setLayoutResource(R.layout.mcab_appbar);
-            stub.setInflatedId(R.id.mcab_appbar);
-            mAppBar = (Toolbar) stub.inflate();
+            stub.setLayoutResource(R.layout.mcab_toolbar);
+            stub.setInflatedId(R.id.mcab_toolbar);
+            mToolbar = (Toolbar) stub.inflate();
         } else if (attacher instanceof Toolbar) {
-            mAppBar = (Toolbar) attacher;
+            mToolbar = (Toolbar) attacher;
         }
 
-        if (mAppBar != null) {
+        if (mToolbar != null) {
             if (mFutureTitle != null)
                 setTitle(mFutureTitle);
             if (mPopupTheme != 0)
-                mAppBar.setPopupTheme(mPopupTheme);
+                mToolbar.setPopupTheme(mPopupTheme);
             if (mMenu != 0)
                 setMenu(mMenu);
             if (mCloseDrawable != 0)
                 setCloseDrawable(mCloseDrawable);
             setBackgroundColor(mBackgroundColor);
             setContentInsetStart(mContentInsetStart);
-            mAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
                 }
             });
-            return mCallback == null || mCallback.onCabCreated(this, mAppBar.getMenu());
+            return mCallback == null || mCallback.onCabCreated(this, mToolbar.getMenu());
         }
         return false;
     }
