@@ -2,6 +2,7 @@ package com.afollestad.materialcab;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.AttrRes;
 import android.support.annotation.DimenRes;
 import android.util.TypedValue;
@@ -21,19 +22,19 @@ public class Util {
         }
     }
 
-    public static int resolveInt(Context context, @AttrRes int attr, int fallback) {
+    public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
         try {
-            return a.getInt(0, fallback);
+            return a.getColor(0, fallback);
         } finally {
             a.recycle();
         }
     }
 
-    public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
+    public static int resolveInt(Context context, @AttrRes int attr, int fallback) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
         try {
-            return a.getColor(0, fallback);
+            return a.getInt(0, fallback);
         } finally {
             a.recycle();
         }

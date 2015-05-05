@@ -2,9 +2,12 @@ package com.afollestad.materialcab;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.AttrRes;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -90,6 +93,14 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         return this;
     }
 
+    public MaterialCab setTitleRes(@StringRes int titleRes) {
+        return setTitle(mContext.getResources().getText(titleRes));
+    }
+
+    public MaterialCab setTitleRes(@StringRes int titleRes, Object... formatArgs) {
+        return setTitle(mContext.getResources().getString(titleRes, formatArgs));
+    }
+
     public MaterialCab setMenu(@MenuRes int menuRes) {
         mMenu = menuRes;
         if (mToolbar != null) {
@@ -120,6 +131,10 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         return setContentInsetStart((int) mContext.getResources().getDimension(contentInsetRes));
     }
 
+    public MaterialCab setContentInsetStartAttr(@AttrRes int contentInsetAttr) {
+        return setContentInsetStart(Util.resolveInt(mContext, contentInsetAttr, 0));
+    }
+
     public MaterialCab setBackgroundColor(int color) {
         mBackgroundColor = color;
         if (mToolbar != null)
@@ -127,10 +142,18 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         return this;
     }
 
-    public MaterialCab setCloseDrawable(@DrawableRes int closeDrawable) {
-        mCloseDrawable = closeDrawable;
+    public MaterialCab setBackgroundColorRes(@ColorRes int colorRes) {
+        return setBackgroundColor(mContext.getResources().getColor(colorRes));
+    }
+
+    public MaterialCab setBackgroundColorAttr(@AttrRes int colorAttr) {
+        return setBackgroundColor(Util.resolveColor(mContext, colorAttr, 0));
+    }
+
+    public MaterialCab setCloseDrawableRes(@DrawableRes int closeDrawableRes) {
+        mCloseDrawable = closeDrawableRes;
         if (mToolbar != null)
-            mToolbar.setNavigationIcon(closeDrawable);
+            mToolbar.setNavigationIcon(mCloseDrawable);
         return this;
     }
 
@@ -170,7 +193,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
             if (mMenu != 0)
                 setMenu(mMenu);
             if (mCloseDrawable != 0)
-                setCloseDrawable(mCloseDrawable);
+                setCloseDrawableRes(mCloseDrawable);
             setBackgroundColor(mBackgroundColor);
             setContentInsetStart(mContentInsetStart);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
