@@ -1,5 +1,9 @@
 # Material Contextual Action Bar
 
+![Cabinet-Art](https://raw.githubusercontent.com/afollestad/material-cab/master/art/screener.png)
+
+# Gradle Dependency
+
 You will need to directly reference my Bintray repository since this library is not hosted on jCenter:
 
 ```Gradle
