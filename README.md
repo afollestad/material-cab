@@ -1,6 +1,6 @@
 # Material Contextual Action Bar
 
-![Cabinet-Art](https://raw.githubusercontent.com/afollestad/material-cab/master/art/screenshot1.png)
+![Cabinet-Art](https://raw.githubusercontent.com/afollestad/material-cab/master/art/screenshot2.png)
 
 # Gradle Dependency
 
