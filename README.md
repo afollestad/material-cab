@@ -78,6 +78,33 @@ R.id.cab_stub references the `ViewStub`, which is replaced with the CAB toolbar 
 
 Note that the parameter in `start()` is a callback which receives CAB events.
 
+## Callback
+
+Whether it's an Activity that implements the Callback interface, or an inline callback, it implements
+these methods:
+
+```java
+new MaterialCab.Callback() {
+            @Override
+            public boolean onCabCreated(MaterialCab cab, Menu menu) {
+                // The CAB was started, return true to allow creation to continue.
+                return true; 
+            }
+
+            @Override
+            public boolean onCabItemClicked(MenuItem item) {
+                // An item in the toolbar or overflow menu was tapped.
+                return true;
+            }
+
+            @Override
+            public boolean onCabFinished(MaterialCab cab) {
+                // The CAB was finished, return true to allow destruction to continue.
+                return true;
+            }
+        };
+```
+
 ## Properties
 
 This code chains calls to properties that would be commonly used:
@@ -166,4 +193,14 @@ protected void onSaveInstanceState(Bundle outState) {
         mCab.saveState(outState);
     }
 }
+```
+
+## Finishing the CAB
+
+The icon on the left of the CAB toolbar (the close drawable) will cause the CAB to be finished,
+but you can also manually finish the CAB:
+
+```java
+MaterialCab cab = // ... initialize
+cab.finish();
 ```
