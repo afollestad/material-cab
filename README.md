@@ -2,6 +2,14 @@
 
 ![Cabinet-Art](https://raw.githubusercontent.com/afollestad/material-cab/master/art/screenshot2.png)
 
+Material CAB allows you to implement a customizable and flexible contextual action bar in your app.
+The traditional stock CAB on Android is limited to being placed at the top of your Activity, and the navigation drawer 
+cannot go over it. This library lets you choose its exact location, and a toolbar is used allowing views
+to be be placed over and under it.
+
+Not only that, the stock CAB only allows you to specify theme properties from styles.xml, this library
+lets you dynamically change theme properties at runtime from code.
+
 ## Gradle Dependency
 
 You will need to directly reference my Bintray repository since this library is not hosted on jCenter:
@@ -16,7 +24,7 @@ This goes in your dependencies (in addition to your other dependencies obviously
 
 ```Gradle
 dependencies {
-    compile 'com.afollestad:material-cab:0.1.1'
+    compile 'com.afollestad:material-cab:0.1.2'
 }
 ```
 
