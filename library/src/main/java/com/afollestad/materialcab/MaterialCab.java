@@ -8,12 +8,10 @@ import android.support.annotation.MenuRes;
 import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.ViewStub;
 
 import java.io.Serializable;
 
@@ -155,15 +153,14 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         final View attacher = mContext.findViewById(mAttacherId);
         if (mContext.findViewById(R.id.mcab_toolbar) != null) {
             mToolbar = (Toolbar) mContext.findViewById(R.id.mcab_toolbar);
-            if (mToolbar.getParent() != null)
-                ((ViewGroup) mToolbar.getParent()).removeView(mToolbar);
-        } else if (!(attacher instanceof FrameLayout)) {
-            throw new IllegalStateException("MaterialCab was unable to attach to your Activity, you must specify an attacher FrameLayout.");
+        } else if (attacher instanceof ViewStub) {
+            ViewStub stub = (ViewStub) attacher;
+            stub.setLayoutResource(R.layout.mcab_toolbar);
+            stub.setInflatedId(R.id.mcab_toolbar);
+            mToolbar = (Toolbar) stub.inflate();
+        } else {
+            throw new IllegalStateException("MaterialCab was unable to attach to your Activity, attacher stub doesn't exist.");
         }
-
-        mToolbar = (Toolbar) LayoutInflater.from(mContext).inflate(
-                R.layout.mcab_toolbar, (FrameLayout) attacher, false);
-        ((FrameLayout) attacher).addView(mToolbar);
 
         if (mToolbar != null) {
             if (mTitle != null)
@@ -191,10 +188,11 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         dest.putSerializable("[mcab_state]", this);
     }
 
-    public static MaterialCab restoreState(Bundle source, Callback callback) {
+    public static MaterialCab restoreState(Bundle source, AppCompatActivity context, Callback callback) {
         if (source == null || !source.containsKey("[mcab_state]"))
             return null;
         MaterialCab cab = (MaterialCab) source.getSerializable("[mcab_state]");
+        cab.mContext = context;
         if (cab.mActive)
             cab.start(callback);
         return cab;

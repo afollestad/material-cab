@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
 
         if (savedInstanceState != null) {
-            mCab = MaterialCab.restoreState(savedInstanceState, this);
+            mCab = MaterialCab.restoreState(savedInstanceState, this, this);
             mAdapter.restoreState(savedInstanceState);
         } else {
             for (int i = 0; i <= 80; i++)
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
             return;
         }
         if (mCab == null)
-            mCab = new MaterialCab(this, R.id.toolbar_frame).start(this);
+            mCab = new MaterialCab(this, R.id.cab_stub).start(this);
         else if (!mCab.isActive())
             mCab.reset().start(this);
         mCab.setTitle(getString(R.string.x_selected, mAdapter.getSelectedCount()));
