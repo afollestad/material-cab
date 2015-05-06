@@ -129,7 +129,7 @@ MaterialCab cab = new MaterialCab(this, R.id.cab_stub)
 ```
 
 Note that *most* of the property setters have different variations for literal values, dimension resources,
-and theme attribute IDs.
+and attribute IDs.
 
 You can also check whether or not the CAB is currently started:
 
