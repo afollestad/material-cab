@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DimenRes;
 import android.util.TypedValue;
 
@@ -22,6 +23,7 @@ public class Util {
         }
     }
 
+    @ColorInt
     public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
         try {
