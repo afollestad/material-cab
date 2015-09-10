@@ -1,6 +1,6 @@
 # Material Contextual Action Bar
 
-![Cabinet-Art](https://raw.githubusercontent.com/afollestad/material-cab/master/art/screenshot2.png)
+![Showcase Image](https://raw.githubusercontent.com/afollestad/material-cab/master/art/screenshot2.png)
 
 Material CAB allows you to implement a customizable and flexible contextual action bar in your app.
 The traditional stock CAB on Android is limited to being placed at the top of your Activity, and the navigation drawer 
@@ -16,7 +16,7 @@ This goes in your dependencies (in addition to your other dependencies obviously
 
 ```Gradle
 dependencies {
-    compile 'com.afollestad:material-cab:0.1.4'
+    compile 'com.afollestad:material-cab:0.1.5'
 }
 ```
 
