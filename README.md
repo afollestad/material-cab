@@ -12,23 +12,24 @@ lets you dynamically change theme properties at runtime from code.
 
 ## Gradle Dependency
 
-This goes in your dependencies (in addition to your other dependencies obviously):
-
-```Gradle
-dependencies {
-    compile 'com.afollestad:material-cab:0.1.5'
-}
-```
-
-[ ![Download](https://api.bintray.com/packages/drummer-aidan/maven/material-cab/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-cab/_latestVersion)
-
-If you have issues resolving the library, add this to your Gradle file too:
+The following goes in your module's `build.gradle` file:
 
 ```Gradle
 repositories {
-    maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+
+    // ... other dependencies here
+
+    compile('com.afollestad:material-cab:0.1.6@aar') {
+        transitive = true
+    }
 }
 ```
+
+[![Release](https://img.shields.io/github/release/afollestad/material-cab.svg?label=jitpack)](https://jitpack.io/#afollestad/material-cab)
 
 ## Attacher
 
