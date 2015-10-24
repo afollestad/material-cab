@@ -185,6 +185,10 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         return mToolbar != null ? mToolbar.getMenu() : null;
     }
 
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
+
     @UiThread
     public void finish() {
         invalidateVisibility(!(mCallback == null || mCallback.onCabFinished(this)));
