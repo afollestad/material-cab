@@ -12,17 +12,26 @@ lets you dynamically change theme properties at runtime from code.
 
 ## Gradle Dependency
 
-The following goes in your module's `build.gradle` file:
+### Repository
+
+Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
+
+```gradle
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
+}
+```
+
+### Dependency
+
+Add this to your module's `build.gradle` file:
 
 ```Gradle
-repositories {
-    maven { url "https://jitpack.io" }
-}
-
 dependencies {
-
-    // ... other dependencies here
-
+    ...
     compile('com.afollestad:material-cab:0.1.6@aar') {
         transitive = true
     }
@@ -30,6 +39,8 @@ dependencies {
 ```
 
 [![Release](https://img.shields.io/github/release/afollestad/material-cab.svg?label=jitpack)](https://jitpack.io/#afollestad/material-cab)
+
+---
 
 ## Attacher
 
