@@ -12,6 +12,9 @@ lets you dynamically change theme properties at runtime from code.
 
 ## Gradle Dependency
 
+[![Release](https://img.shields.io/github/release/afollestad/material-cab.svg?label=jitpack)](https://jitpack.io/#afollestad/material-cab)
+[![Build Status](https://travis-ci.org/afollestad/material-cab.svg)](https://travis-ci.org/afollestad/material-cab)
+
 ### Repository
 
 Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
@@ -37,8 +40,6 @@ dependencies {
     }
 }
 ```
-
-[![Release](https://img.shields.io/github/release/afollestad/material-cab.svg?label=jitpack)](https://jitpack.io/#afollestad/material-cab)
 
 ---
 
