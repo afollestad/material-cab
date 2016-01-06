@@ -215,7 +215,8 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
         } else if (attacher instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) attacher;
             mToolbar = (Toolbar) LayoutInflater.from(mContext)
-                    .inflate(R.layout.mcab_toolbar, parent, true);
+                    .inflate(R.layout.mcab_toolbar, parent, false);
+            parent.addView(mToolbar);
         } else {
             throw new IllegalStateException("MaterialCab was unable to attach to your Activity, attacher stub doesn't exist.");
         }

@@ -36,7 +36,7 @@ Add this to your module's `build.gradle` file:
 ```Gradle
 dependencies {
     ...
-    compile('com.afollestad:material-cab:0.1.7@aar') {
+    compile('com.afollestad:material-cab:0.1.8@aar') {
         transitive = true
     }
 }
