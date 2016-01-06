@@ -36,7 +36,7 @@ Add this to your module's `build.gradle` file:
 ```Gradle
 dependencies {
     ...
-    compile('com.afollestad:material-cab:0.1.6@aar') {
+    compile('com.afollestad:material-cab:0.1.7@aar') {
         transitive = true
     }
 }
@@ -96,9 +96,14 @@ MaterialCab cab = new MaterialCab(this, R.id.cab_stub)
     .start(this);
 ```
 
-R.id.cab_stub references the `ViewStub`, which is replaced with the CAB toolbar when `start()` is called.
+*R.id.cab_stub* references the `ViewStub`, which is replaced with the CAB toolbar when `start()` is called.
 
-Note that the parameter in `start()` is a Callback interface implementer which receives CAB events.
+**Note** that the parameter in `start()` is a Callback interface implementer which receives CAB events.
+
+---
+
+Instead of a `ViewStub`, you can also pass a `ViewGroup` (such as a `FrameLayout`). The CAB will get added
+as a child to that view group.
 
 ## Callback
 

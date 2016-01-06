@@ -16,9 +16,11 @@ import android.support.annotation.StyleRes;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 
 import java.io.Serializable;
@@ -210,6 +212,10 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
             stub.setLayoutResource(R.layout.mcab_toolbar);
             stub.setInflatedId(R.id.mcab_toolbar);
             mToolbar = (Toolbar) stub.inflate();
+        } else if (attacher instanceof ViewGroup) {
+            ViewGroup parent = (ViewGroup) attacher;
+            mToolbar = (Toolbar) LayoutInflater.from(mContext)
+                    .inflate(R.layout.mcab_toolbar, parent, true);
         } else {
             throw new IllegalStateException("MaterialCab was unable to attach to your Activity, attacher stub doesn't exist.");
         }
