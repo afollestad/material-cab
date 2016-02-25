@@ -87,7 +87,7 @@ public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListene
                 Util.resolveColor(mContext, R.attr.colorPrimary, Color.GRAY));
         mCloseDrawable = Util.resolveResId(mContext, R.attr.mcab_close_drawable,
                 Util.resolveResId(mContext, R.attr.actionModeCloseDrawable,
-                        R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+                        R.drawable.mcab_nav_back));
         if (mToolbar != null && mToolbar.getMenu() != null)
             mToolbar.getMenu().clear();
         return this;

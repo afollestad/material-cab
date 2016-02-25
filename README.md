@@ -36,7 +36,7 @@ Add this to your module's `build.gradle` file:
 ```Gradle
 dependencies {
     ...
-    compile('com.afollestad:material-cab:0.1.8@aar') {
+    compile('com.afollestad:material-cab:0.1.9@aar') {
         transitive = true
     }
 }
@@ -143,7 +143,7 @@ MaterialCab cab = new MaterialCab(this, R.id.cab_stub)
     .setPopupMenuTheme(R.style.ThemeOverlay_AppCompat_Light)
     .setContentInsetStartRes(R.dimen.mcab_default_content_inset)
     .setBackgroundColorRes(R.color.indigo_500)
-    .setCloseDrawableRes(R.drawable.abc_ic_ab_back_mtrl_am_alpha)
+    .setCloseDrawableRes(R.drawable.mcab_nav_back)
     .start(this);
 ```
 
@@ -185,9 +185,9 @@ if (cab.isActive()) {
     
     <!-- 
         Changes the default CAB close drawable for all CABs in the Activity.
-        Defaults to the AppCompat R.drawable.abc_ic_ab_back_mtrl_am_alpha back arrow.
+        Defaults to the AppCompat R.drawable.mcab_nav_back back arrow.
     -->
-    <item name="mcab_close_drawable">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
+    <item name="mcab_close_drawable">@drawable/mcab_nav_back</item>
     
     <!-- 
         Changes the default overflow popup theme for all CABs in the Activity.
