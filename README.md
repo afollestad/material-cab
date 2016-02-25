@@ -12,8 +12,8 @@ lets you dynamically change theme properties at runtime from code.
 
 ## Gradle Dependency
 
-[![Release](https://jitpack.io/v/afollestad/material-cab.svg)](https://jitpack.io/#afollestad/material-cab)
-[![Build Status](https://travis-ci.org/afollestad/material-cab.svg)](https://travis-ci.org/afollestad/material-cab)
+[![Release](https://jitpack.io/v/afollestad/material-cab.svg?style=flat-squared)](https://jitpack.io/#afollestad/material-cab)
+[![Build Status](https://img.shields.io/travis/afollestad/material-cab.svg?style=flat-square)](https://travis-ci.org/afollestad/material-cab)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### Repository
