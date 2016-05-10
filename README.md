@@ -1,6 +1,6 @@
 # Material Contextual Action Bar
 
-![Showcase Image](https://raw.githubusercontent.com/afollestad/material-cab/master/art/screenshot2.png)
+<img src="https://raw.githubusercontent.com/afollestad/material-cab/master/art/showcase.png" width="400px" />
 
 Material CAB allows you to implement a customizable and flexible contextual action bar in your app.
 The traditional stock CAB on Android is limited to being placed at the top of your Activity, and the navigation drawer 
