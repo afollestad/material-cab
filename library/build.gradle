@@ -1,27 +1,9 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'material-cab'
-
-    publishedGroupId = 'com.afollestad'
-    libraryName = 'Material CAB'
-    artifact = 'material-cab'
-
-    libraryDescription = 'A simple library for Android, which replaces the stock contextual action bar to allow more customization.'
-
-    siteUrl = 'https://github.com/afollestad/material-cab'
-    gitUrl = 'https://github.com/afollestad/material-cab.git'
-
-    libraryVersion = '0.1.12'
-
-    developerId = 'afollestad'
-    developerName = 'Aidan Follestad'
-    developerEmail = 'drummer.aidan@gmail.com'
-
-    licenseName = 'Apache 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0'
-    allLicenses = ["apache-2.0"]
+    PUBLISH_GROUP_ID = 'com.afollestad'
+    PUBLISH_ARTIFACT_ID = 'material-cab'
+    PUBLISH_VERSION = '0.1.12'
 }
 
 android {
@@ -51,5 +33,4 @@ dependencies {
     compile 'com.android.support:support-annotations:23.3.0'
 }
 
-apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/bintrayInstall.gradle'
-apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/bintrayUpload.gradle'
+apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/android-release-aar.gradle'
