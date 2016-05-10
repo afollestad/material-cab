@@ -12,22 +12,12 @@ lets you dynamically change theme properties at runtime from code.
 
 ## Gradle Dependency
 
-[![Release](https://jitpack.io/v/afollestad/material-cab.svg?style=flat-squared)](https://jitpack.io/#afollestad/material-cab)
+[ ![Download](https://api.bintray.com/packages/drummer-aidan/maven/material-cab/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-cab/_latestVersion)
 [![Build Status](https://img.shields.io/travis/afollestad/material-cab.svg?style=flat-square)](https://travis-ci.org/afollestad/material-cab)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-### Repository
-
-Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
-
-```gradle
-allprojects {
-	repositories {
-		...
-		maven { url "https://jitpack.io" }
-	}
-}
-```
+The Gradle dependency is available via [jCenter](https://bintray.com/drummer-aidan/maven/material-cab/view).
+jCenter is the default Maven repository used by Android Studio.
 
 ### Dependency
 
@@ -36,7 +26,7 @@ Add this to your module's `build.gradle` file:
 ```Gradle
 dependencies {
     ...
-    compile('com.afollestad:material-cab:0.1.11@aar') {
+    compile('com.afollestad:material-cab:0.1.12@aar') {
         transitive = true
     }
 }
