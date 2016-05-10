@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'com.afollestad'
     PUBLISH_ARTIFACT_ID = 'material-cab'
-    PUBLISH_VERSION = '0.1.12'
+    PUBLISH_VERSION = '0.1.11'
 }
 
 android {
@@ -17,7 +17,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "0.1.12"
+        versionName "0.1.11"
     }
     buildTypes {
         release {
