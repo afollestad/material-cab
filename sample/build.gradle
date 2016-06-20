@@ -1,8 +1,15 @@
 apply plugin: 'com.android.application'
 
+ext {
+    PUBLISH_VERSION = '0.1.12'
+    TARGET_SDK = 24
+    BUILD_TOOLS = "24.0.0"
+    GOOGLE_LIBS = "24.0.0"
+}
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion TARGET_SDK
+    buildToolsVersion BUILD_TOOLS
 
     lintOptions {
         abortOnError false
@@ -10,9 +17,9 @@ android {
     defaultConfig {
         applicationId "com.afollestad.materialcabsample"
         minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 1
-        versionName "0.1.12"
+        targetSdkVersion TARGET_SDK
+        versionCode 2
+        versionName PUBLISH_VERSION
     }
     buildTypes {
         release {
@@ -23,8 +30,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
     compile project(':library')
+
+    compile "com.android.support:appcompat-v7:$GOOGLE_LIBS"
+    compile "com.android.support:recyclerview-v7:$GOOGLE_LIBS"
 }

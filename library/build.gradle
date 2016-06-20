@@ -3,21 +3,24 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'com.afollestad'
     PUBLISH_ARTIFACT_ID = 'material-cab'
-    PUBLISH_VERSION = '0.1.11'
+    PUBLISH_VERSION = '0.1.12'
+    TARGET_SDK = 24
+    BUILD_TOOLS = "24.0.0"
+    GOOGLE_LIBS = "24.0.0"
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion TARGET_SDK
+    buildToolsVersion BUILD_TOOLS
 
     lintOptions {
         abortOnError false
     }
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 1
-        versionName "0.1.11"
+        targetSdkVersion TARGET_SDK
+        versionCode 2
+        versionName PUBLISH_VERSION
     }
     buildTypes {
         release {
@@ -28,9 +31,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-annotations:23.4.0'
+    compile "com.android.support:appcompat-v7:$GOOGLE_LIBS"
+    compile "com.android.support:support-annotations:$GOOGLE_LIBS"
 }
 
-apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/android-release-aar.gradle'
+apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/android-lib-release.gradle'
