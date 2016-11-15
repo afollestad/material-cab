@@ -2,6 +2,7 @@
 
     <string name="app_name">Material Cab Demo</string>
     <string name="share">Share</string>
+    <string name="cut">Cut</string>
     <string name="copy">Copy</string>
     <string name="paste">Paste</string>
     <string name="select_all">Select All</string>
