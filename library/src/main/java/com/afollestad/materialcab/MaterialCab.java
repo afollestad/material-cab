@@ -31,11 +31,11 @@ import java.io.Serializable;
 public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListener {
 
     public interface Callback {
-        boolean onCabCreated(MaterialCab cab, Menu menu);
+        boolean onCabCreated(@NonNull MaterialCab cab, @NonNull Menu menu);
 
-        boolean onCabItemClicked(MenuItem item);
+        boolean onCabItemClicked(@NonNull MenuItem item);
 
-        boolean onCabFinished(MaterialCab cab);
+        boolean onCabFinished(@NonNull MaterialCab cab);
     }
 
     @Override
