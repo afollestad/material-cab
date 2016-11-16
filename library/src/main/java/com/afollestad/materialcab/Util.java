@@ -2,7 +2,6 @@ package com.afollestad.materialcab;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DimenRes;
@@ -11,7 +10,7 @@ import android.util.TypedValue;
 /**
  * @author Aidan Follestad (afollestad)
  */
-public class Util {
+class Util {
 
     public static int resolveDimension(Context context, @AttrRes int attr, @DimenRes int fallbackRes) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});

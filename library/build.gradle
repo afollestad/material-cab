@@ -4,9 +4,9 @@ ext {
     PUBLISH_GROUP_ID = 'com.afollestad'
     PUBLISH_ARTIFACT_ID = 'material-cab'
     PUBLISH_VERSION = '0.1.12'
-    TARGET_SDK = 24
-    BUILD_TOOLS = "24.0.0"
-    GOOGLE_LIBS = "24.0.0"
+    TARGET_SDK = 25
+    BUILD_TOOLS = "25.0.0"
+    GOOGLE_LIBS = "25.0.1"
 }
 
 android {

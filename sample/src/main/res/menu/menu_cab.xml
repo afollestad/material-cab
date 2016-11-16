@@ -17,7 +17,7 @@
     <item
         android:id="@+id/cut"
         android:icon="@drawable/ic_action_cut"
-        android:title="@string/share"
+        android:title="@string/cut"
         app:showAsAction="ifRoom" />
 
     <item
