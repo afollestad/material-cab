@@ -1,7 +1,16 @@
 package com.afollestad.materialcabsample;
 
+import android.animation.Animator;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+
+import android.support.v4.content.ContextCompat;
 import android.support.annotation.NonNull;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.afollestad.materialcab.MaterialCab;
+import com.afollestad.materialcab.Util;
 
 import java.lang.reflect.Field;
 
@@ -96,6 +106,12 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
                 ignored.printStackTrace();
             }
         }
+        cab.getToolbar().setAlpha(0.0F);
+        cab.getToolbar().animate().alpha(1.0f);
+        if (Build.VERSION.SDK_INT >= 21) {
+            getStatusBarAnimator(ContextCompat.getColor(this, R.color.grey_dark))
+                    .start();
+        }
         return true; // allow creation
     }
 
@@ -108,6 +124,11 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
     @Override
     public boolean onCabFinished(@NonNull MaterialCab cab) {
         mAdapter.clearSelected();
+        cab.getToolbar().animate().alpha(0.0f);
+        if (Build.VERSION.SDK_INT >= 21) {
+            getStatusBarAnimator(Util.resolveColor(this, R.attr.colorPrimaryDark, Color.TRANSPARENT))
+                    .start();
+        }
         return true; // allow destruction
     }
 
@@ -119,5 +140,12 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
         } else {
             super.onBackPressed();
         }
+    }
+
+    @TargetApi(21)
+    private Animator getStatusBarAnimator(int endColor) {
+        return ObjectAnimator.ofObject(getWindow(), "statusBarColor", new ArgbEvaluator(),
+                getWindow().getStatusBarColor(),
+                endColor);
     }
 }

@@ -6,5 +6,7 @@
     <color name="yellow_500">#FFEB3B</color>
 
     <color name="activated_selected_light" type="color">#3e000000</color>
+    <color name="grey">#969baa</color>
+    <color name="grey_dark">#7D8291</color>
 
 </resources>
