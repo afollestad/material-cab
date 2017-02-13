@@ -7,7 +7,10 @@ import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+
 import android.support.v4.content.ContextCompat;
+import android.support.annotation.NonNull;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
     }
 
     @Override
-    public boolean onCabCreated(MaterialCab cab, Menu menu) {
+    public boolean onCabCreated(@NonNull MaterialCab cab, Menu menu) {
         // Makes the icons in the overflow menu visible
         if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
             try {
@@ -113,13 +116,13 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.Callb
     }
 
     @Override
-    public boolean onCabItemClicked(MenuItem item) {
+    public boolean onCabItemClicked(@NonNull MenuItem item) {
         showToast((String) item.getTitle());
         return true;
     }
 
     @Override
-    public boolean onCabFinished(MaterialCab cab) {
+    public boolean onCabFinished(@NonNull MaterialCab cab) {
         mAdapter.clearSelected();
         cab.getToolbar().animate().alpha(0.0f);
         if (Build.VERSION.SDK_INT >= 21) {
