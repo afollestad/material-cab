@@ -1,6 +1,7 @@
 package com.afollestad.materialcab;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.annotation.UiThread;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -89,12 +91,14 @@ public class MaterialCab implements Toolbar.OnMenuItemClickListener, Parcelable 
         Util.resolveColor(
             context,
             R.attr.mcab_title_color,
-            Util.isColorDark(backgroundColor) ? Color.WHITE : Color.BLACK);
+            Util.isColorDark(backgroundColor)
+                ? Color.WHITE
+                : ContextCompat.getColor(context, R.color.mcab_dark_grey));
     closeDrawable =
         Util.resolveResId(
             context,
             R.attr.mcab_close_drawable,
-            Util.resolveResId(context, R.attr.actionModeCloseDrawable, R.drawable.mcab_nav_back));
+            Util.resolveResId(context, R.attr.actionModeCloseDrawable, R.drawable.mcab_nav_close));
     if (toolbar != null && toolbar.getMenu() != null) {
       toolbar.getMenu().clear();
     }
@@ -202,7 +206,13 @@ public class MaterialCab implements Toolbar.OnMenuItemClickListener, Parcelable 
   public MaterialCab closeDrawableRes(@DrawableRes int closeDrawableRes) {
     closeDrawable = closeDrawableRes;
     if (toolbar != null) {
-      toolbar.setNavigationIcon(closeDrawable);
+      if (closeDrawable == R.drawable.mcab_nav_close) {
+        toolbar.setNavigationIcon(closeDrawable);
+      } else {
+        Drawable closeDrawableRef = ContextCompat.getDrawable(context, closeDrawableRes);
+        Drawable tintedCloseDrawable = Util.tintDrawable(closeDrawableRef, titleColor);
+        toolbar.setNavigationIcon(tintedCloseDrawable);
+      }
     }
     return this;
   }
@@ -310,17 +320,18 @@ public class MaterialCab implements Toolbar.OnMenuItemClickListener, Parcelable 
     isActive = in.readByte() != 0;
   }
 
-  public static final Creator<MaterialCab> CREATOR = new Creator<MaterialCab>() {
-    @Override
-    public MaterialCab createFromParcel(Parcel in) {
-      return new MaterialCab(in);
-    }
+  public static final Creator<MaterialCab> CREATOR =
+      new Creator<MaterialCab>() {
+        @Override
+        public MaterialCab createFromParcel(Parcel in) {
+          return new MaterialCab(in);
+        }
 
-    @Override
-    public MaterialCab[] newArray(int size) {
-      return new MaterialCab[size];
-    }
-  };
+        @Override
+        public MaterialCab[] newArray(int size) {
+          return new MaterialCab[size];
+        }
+      };
 
   @Override
   public int describeContents() {

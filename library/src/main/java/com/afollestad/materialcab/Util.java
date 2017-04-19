@@ -3,9 +3,11 @@ package com.afollestad.materialcab;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DimenRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
 
 /** @author Aidan Follestad (afollestad) */
@@ -60,5 +62,11 @@ class Util {
             - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color))
                 / 255;
     return darkness >= 0.5;
+  }
+
+  static Drawable tintDrawable(Drawable drawable, @ColorInt int color) {
+    Drawable wrapped = DrawableCompat.wrap(drawable);
+    DrawableCompat.setTint(wrapped, color);
+    return wrapped;
   }
 }
