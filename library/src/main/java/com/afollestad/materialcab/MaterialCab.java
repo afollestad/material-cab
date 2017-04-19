@@ -2,6 +2,8 @@ package com.afollestad.materialcab;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -23,241 +25,319 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 
-import java.io.Serializable;
+/** @author Aidan Follestad (afollestad) */
+public class MaterialCab implements Toolbar.OnMenuItemClickListener, Parcelable {
 
-/**
- * @author Aidan Follestad (afollestad)
- */
-public class MaterialCab implements Serializable, Toolbar.OnMenuItemClickListener {
+  private static final String BUNDLE_NAME = "[mcab_parcel_state]";
 
-    public interface Callback {
-        boolean onCabCreated(@NonNull MaterialCab cab, @NonNull Menu menu);
+  public interface Callback {
+    boolean onCabCreated(@NonNull MaterialCab cab, @NonNull Menu menu);
 
-        boolean onCabItemClicked(@NonNull MenuItem item);
+    boolean onCabItemClicked(@NonNull MenuItem item);
 
-        boolean onCabFinished(@NonNull MaterialCab cab);
+    boolean onCabFinished(@NonNull MaterialCab cab);
+  }
+
+  @Override
+  public boolean onMenuItemClick(MenuItem item) {
+    return callback != null && callback.onCabItemClicked(item);
+  }
+
+  private transient AppCompatActivity context;
+  private transient Toolbar toolbar;
+  private transient Callback callback;
+
+  @IdRes private int attacherId;
+  private String title;
+  @ColorInt private int titleColor;
+  @StyleRes private int popupTheme;
+  private int contentInsetStart;
+  @MenuRes private int menu;
+  @ColorInt private int backgroundColor;
+  @DrawableRes private int closeDrawable;
+  private boolean isActive;
+
+  public MaterialCab(@NonNull AppCompatActivity context, @IdRes int attacherId) {
+    this.context = context;
+    this.attacherId = attacherId;
+    reset();
+  }
+
+  public void context(@NonNull AppCompatActivity context) {
+    this.context = context;
+  }
+
+  public boolean isActive() {
+    return isActive;
+  }
+
+  @UiThread
+  public MaterialCab reset() {
+    title = Util.resolveString(context, R.attr.mcab_title);
+    popupTheme =
+        Util.resolveResId(context, R.attr.mcab_popup_theme, R.style.ThemeOverlay_AppCompat_Light);
+    contentInsetStart =
+        Util.resolveDimension(
+            context, R.attr.mcab_contentinset_start, R.dimen.mcab_default_content_inset);
+    menu = Util.resolveResId(context, R.attr.mcab_menu, 0);
+    backgroundColor =
+        Util.resolveColor(
+            context,
+            R.attr.mcab_background_color,
+            Util.resolveColor(context, R.attr.colorPrimary, Color.GRAY));
+    titleColor =
+        Util.resolveColor(
+            context,
+            R.attr.mcab_title_color,
+            Util.isColorDark(backgroundColor) ? Color.WHITE : Color.BLACK);
+    closeDrawable =
+        Util.resolveResId(
+            context,
+            R.attr.mcab_close_drawable,
+            Util.resolveResId(context, R.attr.actionModeCloseDrawable, R.drawable.mcab_nav_back));
+    if (toolbar != null && toolbar.getMenu() != null) {
+      toolbar.getMenu().clear();
+    }
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab start(@Nullable Callback callback) {
+    this.callback = callback;
+    invalidateVisibility(attach());
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab title(@Nullable String title) {
+    this.title = title;
+    if (toolbar != null) {
+      toolbar.setTitle(title);
+    }
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab titleRes(@StringRes int titleRes) {
+    return title(context.getResources().getString(titleRes));
+  }
+
+  @UiThread
+  public MaterialCab titleRes(@StringRes int titleRes, Object... formatArgs) {
+    return title(context.getResources().getString(titleRes, formatArgs));
+  }
+
+  @UiThread
+  public MaterialCab menu(@MenuRes int menuRes) {
+    menu = menuRes;
+    if (toolbar != null) {
+      if (toolbar.getMenu() != null) {
+        toolbar.getMenu().clear();
+      }
+      if (menuRes != 0) {
+        toolbar.inflateMenu(menuRes);
+      }
+      toolbar.setOnMenuItemClickListener(this);
+    }
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab popupMenuTheme(@StyleRes int themeRes) {
+    popupTheme = themeRes;
+    if (toolbar != null) {
+      toolbar.setPopupTheme(themeRes);
+    }
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab contentInsetStart(int contentInset) {
+    contentInsetStart = contentInset;
+    if (toolbar != null) {
+      toolbar.setContentInsetsRelative(contentInset, 0);
+    }
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab contentInsetStartRes(@DimenRes int contentInsetRes) {
+    return contentInsetStart((int) context.getResources().getDimension(contentInsetRes));
+  }
+
+  @UiThread
+  public MaterialCab contentInsetStartAttr(@AttrRes int contentInsetAttr) {
+    return contentInsetStart(Util.resolveInt(context, contentInsetAttr, 0));
+  }
+
+  @UiThread
+  public MaterialCab titleColor(@ColorInt int color) {
+    titleColor = color;
+    if (toolbar != null) {
+      toolbar.setTitleTextColor(color);
+    }
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab backgroundColor(@ColorInt int color) {
+    backgroundColor = color;
+    if (toolbar != null) {
+      toolbar.setBackgroundColor(color);
+    }
+    return this;
+  }
+
+  @UiThread
+  public MaterialCab backgroundColorRes(@ColorRes int colorRes) {
+    return backgroundColor(context.getResources().getColor(colorRes));
+  }
+
+  @UiThread
+  public MaterialCab backgroundColorAttr(@AttrRes int colorAttr) {
+    return backgroundColor(Util.resolveColor(context, colorAttr, 0));
+  }
+
+  @UiThread
+  public MaterialCab closeDrawableRes(@DrawableRes int closeDrawableRes) {
+    closeDrawable = closeDrawableRes;
+    if (toolbar != null) {
+      toolbar.setNavigationIcon(closeDrawable);
+    }
+    return this;
+  }
+
+  public Menu menu() {
+    return toolbar != null ? toolbar.getMenu() : null;
+  }
+
+  public Toolbar toolbar() {
+    return toolbar;
+  }
+
+  @UiThread
+  public void finish() {
+    invalidateVisibility(!(callback == null || callback.onCabFinished(this)));
+  }
+
+  private void invalidateVisibility(boolean active) {
+    if (toolbar == null) {
+      return;
+    }
+    toolbar.setVisibility(active ? View.VISIBLE : View.GONE);
+    this.isActive = active;
+  }
+
+  private boolean attach() {
+    final View attacher = context.findViewById(attacherId);
+    if (context.findViewById(R.id.mcab_toolbar) != null) {
+      toolbar = (Toolbar) context.findViewById(R.id.mcab_toolbar);
+    } else if (attacher instanceof ViewStub) {
+      ViewStub stub = (ViewStub) attacher;
+      stub.setLayoutResource(R.layout.mcab_toolbar);
+      stub.setInflatedId(R.id.mcab_toolbar);
+      toolbar = (Toolbar) stub.inflate();
+    } else if (attacher instanceof ViewGroup) {
+      ViewGroup parent = (ViewGroup) attacher;
+      toolbar =
+          (Toolbar) LayoutInflater.from(context).inflate(R.layout.mcab_toolbar, parent, false);
+      parent.addView(toolbar);
+    } else {
+      throw new IllegalStateException(
+          "MaterialCab was unable to attach to your Activity, attacher stub doesn't exist.");
+    }
+
+    if (toolbar != null) {
+      if (title != null) {
+        title(title);
+      }
+      titleColor(titleColor);
+      if (popupTheme != 0) {
+        toolbar.setPopupTheme(popupTheme);
+      }
+      if (menu != 0) {
+        menu(menu);
+      }
+      if (closeDrawable != 0) {
+        closeDrawableRes(closeDrawable);
+      }
+      backgroundColor(backgroundColor);
+      contentInsetStart(contentInsetStart);
+      toolbar.setNavigationOnClickListener(
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              finish();
+            }
+          });
+      return callback == null || callback.onCabCreated(this, toolbar.getMenu());
+    }
+    return false;
+  }
+
+  @UiThread
+  public void saveState(Bundle dest) {
+    dest.putParcelable(BUNDLE_NAME, this);
+  }
+
+  @UiThread
+  public static MaterialCab restoreState(
+      Bundle source, AppCompatActivity context, Callback callback) {
+    if (source == null || !source.containsKey(BUNDLE_NAME)) {
+      return null;
+    }
+    MaterialCab cab = source.getParcelable(BUNDLE_NAME);
+    if (cab != null) {
+      cab.context = context;
+      if (cab.isActive) {
+        cab.start(callback);
+      }
+    }
+    return cab;
+  }
+
+  //// PARCELABLE STUFF
+
+  private MaterialCab(Parcel in) {
+    attacherId = in.readInt();
+    title = in.readString();
+    titleColor = in.readInt();
+    popupTheme = in.readInt();
+    contentInsetStart = in.readInt();
+    menu = in.readInt();
+    backgroundColor = in.readInt();
+    closeDrawable = in.readInt();
+    isActive = in.readByte() != 0;
+  }
+
+  public static final Creator<MaterialCab> CREATOR = new Creator<MaterialCab>() {
+    @Override
+    public MaterialCab createFromParcel(Parcel in) {
+      return new MaterialCab(in);
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        return mCallback != null && mCallback.onCabItemClicked(item);
+    public MaterialCab[] newArray(int size) {
+      return new MaterialCab[size];
     }
+  };
 
-    private transient AppCompatActivity mContext;
-    private transient Toolbar mToolbar;
-    private transient Callback mCallback;
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-    @IdRes
-    private int mAttacherId;
-    private CharSequence mTitle;
-    @StyleRes
-    private int mPopupTheme;
-    private int mContentInsetStart;
-    @MenuRes
-    private int mMenu;
-    @ColorInt
-    private int mBackgroundColor;
-    @DrawableRes
-    private int mCloseDrawable;
-    private boolean mActive;
+  @Override
+  public void writeToParcel(Parcel parcel, int i) {
 
-    public MaterialCab(@NonNull AppCompatActivity context, @IdRes int attacherId) {
-        mContext = context;
-        mAttacherId = attacherId;
-        reset();
-    }
-
-    public void setContext(@NonNull AppCompatActivity context) {
-        mContext = context;
-    }
-
-    public boolean isActive() {
-        return mActive;
-    }
-
-    @UiThread
-    public MaterialCab reset() {
-        mTitle = Util.resolveString(mContext, R.attr.mcab_title);
-        mPopupTheme = Util.resolveResId(mContext, R.attr.mcab_popup_theme,
-                R.style.ThemeOverlay_AppCompat_Light);
-        mContentInsetStart = Util.resolveDimension(mContext, R.attr.mcab_contentinset_start,
-                R.dimen.mcab_default_content_inset);
-        mMenu = Util.resolveResId(mContext, R.attr.mcab_menu, 0);
-        mBackgroundColor = Util.resolveColor(mContext, R.attr.mcab_background_color,
-                Util.resolveColor(mContext, R.attr.colorPrimary, Color.GRAY));
-        mCloseDrawable = Util.resolveResId(mContext, R.attr.mcab_close_drawable,
-                Util.resolveResId(mContext, R.attr.actionModeCloseDrawable,
-                        R.drawable.mcab_nav_back));
-        if (mToolbar != null && mToolbar.getMenu() != null)
-            mToolbar.getMenu().clear();
-        return this;
-    }
-
-    @UiThread
-    public MaterialCab start(@Nullable Callback callback) {
-        mCallback = callback;
-        invalidateVisibility(attach());
-        return this;
-    }
-
-    @UiThread
-    public MaterialCab setTitle(@Nullable CharSequence title) {
-        mTitle = title;
-        if (mToolbar != null)
-            mToolbar.setTitle(title);
-        return this;
-    }
-
-    @UiThread
-    public MaterialCab setTitleRes(@StringRes int titleRes) {
-        return setTitle(mContext.getResources().getText(titleRes));
-    }
-
-    @UiThread
-    public MaterialCab setTitleRes(@StringRes int titleRes, Object... formatArgs) {
-        return setTitle(mContext.getResources().getString(titleRes, formatArgs));
-    }
-
-    @UiThread
-    public MaterialCab setMenu(@MenuRes int menuRes) {
-        mMenu = menuRes;
-        if (mToolbar != null) {
-            if (mToolbar.getMenu() != null)
-                mToolbar.getMenu().clear();
-            if (menuRes != 0)
-                mToolbar.inflateMenu(menuRes);
-            mToolbar.setOnMenuItemClickListener(this);
-        }
-        return this;
-    }
-
-    @UiThread
-    public MaterialCab setPopupMenuTheme(@StyleRes int themeRes) {
-        mPopupTheme = themeRes;
-        if (mToolbar != null)
-            mToolbar.setPopupTheme(themeRes);
-        return this;
-    }
-
-    @UiThread
-    public MaterialCab setContentInsetStart(int contentInset) {
-        mContentInsetStart = contentInset;
-        if (mToolbar != null)
-            mToolbar.setContentInsetsRelative(contentInset, 0);
-        return this;
-    }
-
-    @UiThread
-    public MaterialCab setContentInsetStartRes(@DimenRes int contentInsetRes) {
-        return setContentInsetStart((int) mContext.getResources().getDimension(contentInsetRes));
-    }
-
-    @UiThread
-    public MaterialCab setContentInsetStartAttr(@AttrRes int contentInsetAttr) {
-        return setContentInsetStart(Util.resolveInt(mContext, contentInsetAttr, 0));
-    }
-
-    @UiThread
-    public MaterialCab setBackgroundColor(@ColorInt int color) {
-        mBackgroundColor = color;
-        if (mToolbar != null)
-            mToolbar.setBackgroundColor(color);
-        return this;
-    }
-
-    @UiThread
-    public MaterialCab setBackgroundColorRes(@ColorRes int colorRes) {
-        return setBackgroundColor(mContext.getResources().getColor(colorRes));
-    }
-
-    @UiThread
-    public MaterialCab setBackgroundColorAttr(@AttrRes int colorAttr) {
-        return setBackgroundColor(Util.resolveColor(mContext, colorAttr, 0));
-    }
-
-    @UiThread
-    public MaterialCab setCloseDrawableRes(@DrawableRes int closeDrawableRes) {
-        mCloseDrawable = closeDrawableRes;
-        if (mToolbar != null)
-            mToolbar.setNavigationIcon(mCloseDrawable);
-        return this;
-    }
-
-    public Menu getMenu() {
-        return mToolbar != null ? mToolbar.getMenu() : null;
-    }
-
-    public Toolbar getToolbar() {
-        return mToolbar;
-    }
-
-    @UiThread
-    public void finish() {
-        invalidateVisibility(!(mCallback == null || mCallback.onCabFinished(this)));
-    }
-
-    private void invalidateVisibility(boolean active) {
-        if (mToolbar == null) return;
-        mToolbar.setVisibility(active ?
-                View.VISIBLE : View.GONE);
-        mActive = active;
-    }
-
-    private boolean attach() {
-        final View attacher = mContext.findViewById(mAttacherId);
-        if (mContext.findViewById(R.id.mcab_toolbar) != null) {
-            mToolbar = (Toolbar) mContext.findViewById(R.id.mcab_toolbar);
-        } else if (attacher instanceof ViewStub) {
-            ViewStub stub = (ViewStub) attacher;
-            stub.setLayoutResource(R.layout.mcab_toolbar);
-            stub.setInflatedId(R.id.mcab_toolbar);
-            mToolbar = (Toolbar) stub.inflate();
-        } else if (attacher instanceof ViewGroup) {
-            ViewGroup parent = (ViewGroup) attacher;
-            mToolbar = (Toolbar) LayoutInflater.from(mContext)
-                    .inflate(R.layout.mcab_toolbar, parent, false);
-            parent.addView(mToolbar);
-        } else {
-            throw new IllegalStateException("MaterialCab was unable to attach to your Activity, attacher stub doesn't exist.");
-        }
-
-        if (mToolbar != null) {
-            if (mTitle != null)
-                setTitle(mTitle);
-            if (mPopupTheme != 0)
-                mToolbar.setPopupTheme(mPopupTheme);
-            if (mMenu != 0)
-                setMenu(mMenu);
-            if (mCloseDrawable != 0)
-                setCloseDrawableRes(mCloseDrawable);
-            setBackgroundColor(mBackgroundColor);
-            setContentInsetStart(mContentInsetStart);
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            return mCallback == null || mCallback.onCabCreated(this, mToolbar.getMenu());
-        }
-        return false;
-    }
-
-    @UiThread
-    public void saveState(Bundle dest) {
-        dest.putSerializable("[mcab_state]", this);
-    }
-
-    @UiThread
-    public static MaterialCab restoreState(Bundle source, AppCompatActivity context, Callback callback) {
-        if (source == null || !source.containsKey("[mcab_state]"))
-            return null;
-        MaterialCab cab = (MaterialCab) source.getSerializable("[mcab_state]");
-        if (cab != null) {
-            cab.mContext = context;
-            if (cab.mActive)
-                cab.start(callback);
-        }
-        return cab;
-    }
+    parcel.writeInt(attacherId);
+    parcel.writeString(title);
+    parcel.writeInt(titleColor);
+    parcel.writeInt(popupTheme);
+    parcel.writeInt(contentInsetStart);
+    parcel.writeInt(menu);
+    parcel.writeInt(backgroundColor);
+    parcel.writeInt(closeDrawable);
+    parcel.writeByte((byte) (isActive ? 1 : 0));
+  }
 }

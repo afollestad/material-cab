@@ -1,6 +1,6 @@
 <manifest
-    package="com.afollestad.materialcab">
+  package="com.afollestad.materialcab">
 
-    <application/>
+  <application/>
 
 </manifest>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="mcab_title" format="string" />
-    <attr name="mcab_popup_theme" format="reference" />
-    <attr name="mcab_contentinset_start" format="dimension" />
-    <attr name="mcab_menu" format="reference" />
-    <attr name="mcab_background_color" format="color" />
-    <attr name="mcab_close_drawable" format="reference" />
+  <attr name="mcab_title" format="string"/>
+  <attr name="mcab_title_color" format="color"/>
+  <attr name="mcab_popup_theme" format="reference"/>
+  <attr name="mcab_contentinset_start" format="dimension"/>
+  <attr name="mcab_menu" format="reference"/>
+  <attr name="mcab_background_color" format="color"/>
+  <attr name="mcab_close_drawable" format="reference"/>
 
 </resources>
