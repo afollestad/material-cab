@@ -9,9 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.afollestad.materialcab.MaterialCab;
-
 import java.lang.reflect.Field;
 
 /** @author Aidan Follestad (afollestad) */
