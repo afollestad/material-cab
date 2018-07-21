@@ -6,11 +6,8 @@
 
   <style name="AppTheme" parent="AppTheme_Parent">
     <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryDark">@color/colorPrimary</item>
-    <item name="colorAccent">@color/colorPrimaryDark</item>
-
-    <item name="mcab_popup_theme">@style/ThemeOverlay.AppCompat.Light</item>
-    <item name="mcab_menu">@menu/menu_cab</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
   </style>
 
 </resources>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <color name="colorPrimary">#FAFAFA</color>
-  <color name="colorPrimaryDark">#E0E0E0</color>
-  <color name="colorAccent">#00BCD4</color>
+  <color name="colorPrimary">#26C6DA</color>
+  <color name="colorPrimaryDark">#00ACC1</color>
+  <color name="colorAccent">#1DE9B6</color>
 
   <color name="activated_selected_light" type="color">#3e000000</color>
 

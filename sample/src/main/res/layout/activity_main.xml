@@ -18,7 +18,7 @@
         android:layout_height="?actionBarSize"
         android:background="?colorPrimary"
         android:elevation="@dimen/mcab_toolbar_elevation"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentInsetStart="@dimen/mcab_default_content_inset"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:ignore="UnusedAttribute"

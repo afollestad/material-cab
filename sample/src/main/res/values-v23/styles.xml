@@ -1,9 +1,0 @@
-<resources>
-
-  <style name="AppTheme_Parent" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="list_selector">@drawable/list_ripple_selector</item>
-    <item name="android:statusBarColor">#F5F5F5</item>
-    <item name="android:windowLightStatusBar">true</item>
-  </style>
-
-</resources>

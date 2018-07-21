@@ -38,9 +38,9 @@ dependencies {
   repositories {
     google()
   }
-
   implementation 'com.android.support:appcompat-v7:' + versions.supportLib
   implementation 'com.android.support:support-annotations:' + versions.supportLib
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlin
 }
 
 publish {
