@@ -1,27 +1,35 @@
 apply from: './dependencies.gradle'
+apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
     apply from: './dependencies.gradle'
 
     repositories {
+	google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:' + versions.gradlePlugin
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:" + versions.spotlessPlugin
+    	classpath 'com.diffplug.spotless:spotless-plugin-gradle:' + versions.spotlessPlugin
+    	classpath 'com.novoda:bintray-release:' + versions.bintrayRelease
+    	classpath 'com.github.ben-manes:gradle-versions-plugin:' + versions.versionsPlugin
+	classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin
     }
 }
 
 allprojects {
     repositories {
+	google()
         jcenter()
     }
 
     buildscript {
         repositories {
-            maven { url "https://plugins.gradle.org/m2/" }
+		google()
+		jcenter()
         }
     }
+
     apply plugin: "com.diffplug.gradle.spotless"
     spotless {
         java {
@@ -32,8 +40,21 @@ allprojects {
             endWithNewline()
         }
     }
+	
+    tasks.withType(Javadoc).all {
+        enabled = false
+    }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+dependencyUpdates.resolutionStrategy = {
+  componentSelection { rules ->
+    rules.all { ComponentSelection selection ->
+      boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+        selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+      }
+      if (rejected) {
+        selection.reject('Release candidate')
+      }
+    }
+  }
 }
