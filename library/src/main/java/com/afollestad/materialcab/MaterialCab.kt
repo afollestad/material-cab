@@ -57,6 +57,10 @@ class MaterialCab(
       toolbar?.setTitleTextColor(value)
     }
 
+  fun titleColorRes(@ColorRes res: Int) {
+    titleColor = context.color(res)
+  }
+
   @StyleRes
   var popupTheme: Int = R.style.ThemeOverlay_AppCompat_Light
     set(value) {
@@ -135,12 +139,11 @@ class MaterialCab(
       context: AppCompatActivity,
       @IdRes attachToId: Int,
       exec: MaterialCab.() -> Unit
-    ): MaterialCab {
+    ) {
       val isNew = instance == null
       if (isNew) instance = MaterialCab(context, attachToId)
       instance!!.exec()
       instance!!.inject(isNew)
-      return instance!!
     }
 
     fun tryRestore(
