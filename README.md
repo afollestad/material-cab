@@ -118,6 +118,12 @@ MaterialCab.attach(this, R.id.cab_stub) {
 
 ---
 
+## Updating
+
+If you need to update something in a visible CAB, like the title, just `attach(...) { }` again. The CAB won't be recreated if it's already attached, it will just be invalidated.
+
+---
+
 ## Saving and Restoring States
 
 In order to keep the CAB active, and maintain all of its current properties, you have to save and restore
