@@ -2,48 +2,48 @@ apply from: './dependencies.gradle'
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    apply from: './dependencies.gradle'
+  apply from: './dependencies.gradle'
 
-    repositories {
-	google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:' + versions.gradlePlugin
-    	classpath 'com.diffplug.spotless:spotless-plugin-gradle:' + versions.spotlessPlugin
-    	classpath 'com.novoda:bintray-release:' + versions.bintrayRelease
-    	classpath 'com.github.ben-manes:gradle-versions-plugin:' + versions.versionsPlugin
-	classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin
-    }
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:' + versions.gradlePlugin
+    classpath 'com.diffplug.spotless:spotless-plugin-gradle:' + versions.spotlessPlugin
+    classpath 'com.novoda:bintray-release:' + versions.bintrayRelease
+    classpath 'com.github.ben-manes:gradle-versions-plugin:' + versions.versionsPlugin
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin
+  }
 }
 
 allprojects {
+  repositories {
+    google()
+    jcenter()
+  }
+
+  buildscript {
     repositories {
-	google()
-        jcenter()
+      google()
+      jcenter()
     }
+  }
 
-    buildscript {
-        repositories {
-		google()
-		jcenter()
-        }
+  apply plugin: "com.diffplug.gradle.spotless"
+  spotless {
+    java {
+      target "**/*.java"
+      trimTrailingWhitespace()
+      removeUnusedImports()
+      googleJavaFormat()
+      endWithNewline()
     }
+  }
 
-    apply plugin: "com.diffplug.gradle.spotless"
-    spotless {
-        java {
-            target "**/*.java"
-            trimTrailingWhitespace()
-            removeUnusedImports()
-            googleJavaFormat()
-            endWithNewline()
-        }
-    }
-	
-    tasks.withType(Javadoc).all {
-        enabled = false
-    }
+  tasks.withType(Javadoc).all {
+    enabled = false
+  }
 }
 
 dependencyUpdates.resolutionStrategy = {
