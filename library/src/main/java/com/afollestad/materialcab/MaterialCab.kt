@@ -40,9 +40,18 @@ class MaterialCab(
       field = value
       toolbar?.title = value
     }
+  var subtitle: String? = null
+    set(value) {
+      field = value
+      toolbar?.subtitle = value
+    }
 
   fun titleRes(@StringRes res: Int) {
     title = context.string(res)
+  }
+
+  fun subtitleRes(@StringRes res: Int) {
+    subtitle = context.string(res)
   }
 
   @ColorInt
@@ -52,8 +61,15 @@ class MaterialCab(
       toolbar?.setTitleTextColor(value)
     }
 
-  fun titleColorRes(@ColorRes res: Int) {
-    titleColor = context.color(res)
+  @ColorInt
+  var subtitleColor: Int = Color.WHITE
+    set(value) {
+      field = value
+      toolbar?.setSubtitleTextColor(value)
+    }
+
+  fun subtitleColorRes(@ColorRes res: Int) {
+    subtitleColor = context.color(res)
   }
 
   @StyleRes
@@ -152,6 +168,8 @@ class MaterialCab(
       attach(context, attachToId) {
         this.title = fromState.getString(KEY_TITLE)
         this.titleColor = fromState.getInt(KEY_TITLE_COLOR)
+        this.subtitle = fromState.getString(KEY_SUBTITLE)
+        this.subtitleColor = fromState.getInt(KEY_SUBTITLE_COLOR)
         this.popupTheme = fromState.getInt(KEY_POPUP_THEME)
         this.menuRes = fromState.getInt(KEY_MENU_RES)
         this.closeDrawableRes = fromState.getInt(KEY_CLOSE_DRAWABLE_RES)
@@ -169,6 +187,8 @@ class MaterialCab(
         out.putInt(KEY_ATTACHTO_ID, attachToId)
         out.putString(KEY_TITLE, title)
         out.putInt(KEY_TITLE_COLOR, titleColor)
+        out.putString(KEY_SUBTITLE, subtitle)
+        out.putInt(KEY_SUBTITLE_COLOR, subtitleColor)
         out.putInt(KEY_POPUP_THEME, popupTheme)
         out.putInt(KEY_MENU_RES, menuRes)
         out.putInt(KEY_CLOSE_DRAWABLE_RES, closeDrawableRes)
@@ -228,6 +248,8 @@ class MaterialCab(
     // Invalidates everything now that a Toolbar definitely exists
     this.title = title
     this.titleColor = titleColor
+    this.subtitle = title
+    this.subtitleColor = titleColor
     this.popupTheme = popupTheme
     this.menuRes = menuRes
     this.closeDrawableRes = closeDrawableRes

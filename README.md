@@ -94,6 +94,10 @@ MaterialCab.attach(this, R.id.cab_stub) {
     titleRes(R.string.title_resource)
     titleColor = Color.WHITE
     titleColorRes(R.color.white)
+    subtitle = "Subtitle Hardcoded"
+    subtitleRes(R.string.subtitle_resource)
+    subtitleColor = Color.LTGRAY
+    subtitleColorRes(R.color.light_gray)
     popupTheme = R.style.ThemeOverlay_AppCompat_Light
     contentInsetStart = 120
     contentInsetStartRes(R.dimen.mcab_default_content_inset)
