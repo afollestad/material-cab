@@ -1,16 +1,12 @@
 package com.afollestad.materialcabsample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialcab.MaterialCab
-import kotlinx.android.synthetic.main.activity_main.list
-import java.lang.reflect.Field
+import kotlinx.android.synthetic.main.activity_main.*
 
 /** @author Aidan Follestad (afollestad) */
 class MainActivity : AppCompatActivity() {
