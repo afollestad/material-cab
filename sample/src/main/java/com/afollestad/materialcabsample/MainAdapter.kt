@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.listitem_main.view.*
+import kotlinx.android.synthetic.main.listitem_main.view.icon
+import kotlinx.android.synthetic.main.listitem_main.view.title
 import java.util.ArrayList
 
 typealias ItemClickCallback = ((index: Int, longClick: Boolean) -> Unit)?
