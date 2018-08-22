@@ -1,7 +1,7 @@
 ext.versions = [
     minSdk            : 14,
     compileSdk        : 28,
-    buildTools        : '28.0.1',
+    buildTools        : '28.0.2',
     publishVersion    : '1.0.1',
     publishVersionCode: 7,
 
@@ -11,5 +11,5 @@ ext.versions = [
     versionsPlugin    : '0.20.0',
     bintrayRelease    : '0.8.1',
 
-    supportLib        : '28.0.0-rc01'
+    supportLib        : '1.0.0-rc01'
 ]

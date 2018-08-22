@@ -1,10 +1,10 @@
 package com.afollestad.materialcabsample
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.listitem_main.view.icon
 import kotlinx.android.synthetic.main.listitem_main.view.title
 import java.util.ArrayList

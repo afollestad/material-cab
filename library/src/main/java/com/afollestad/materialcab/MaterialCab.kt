@@ -5,29 +5,15 @@ package com.afollestad.materialcab
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.support.annotation.CheckResult
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.DimenRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.IdRes
-import android.support.annotation.MenuRes
-import android.support.annotation.RestrictTo
-import android.support.annotation.RestrictTo.Scope
-import android.support.annotation.StringRes
-import android.support.annotation.StyleRes
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewStub
+import android.view.*
+import androidx.annotation.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 
 /** @author Aidan Follestad (afollestad) */
 class MaterialCab(
-  private var ctxt: AppCompatActivity?,
-  @IdRes private var attachToId: Int
+        private var ctxt: AppCompatActivity?,
+        @IdRes private var attachToId: Int
 ) : Toolbar.OnMenuItemClickListener {
 
   private var toolbar: Toolbar? = null
@@ -219,7 +205,7 @@ class MaterialCab(
     }
   }
 
-  @RestrictTo(Scope.LIBRARY_GROUP)
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
   fun inject(isNew: Boolean) {
     with(context) {
       val attachToView = findViewById<View>(attachToId)
