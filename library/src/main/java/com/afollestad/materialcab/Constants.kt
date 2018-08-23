@@ -1,3 +1,8 @@
+/*
+ * Licensed under Apache-2.0
+ *
+ * Designed and developed by Aidan Follestad (@afollestad)
+ */
 package com.afollestad.materialcab
 
 const val KEY_ATTACHTO_ID = "mcab_attachTo_id"

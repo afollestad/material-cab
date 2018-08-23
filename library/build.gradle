@@ -1,7 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: "com.github.ben-manes.versions"
 apply from: '../dependencies.gradle'
+
+apply from: '../bintrayconfig.gradle'
 
 android {
   compileSdkVersion versions.compileSdk
@@ -19,13 +21,6 @@ android {
     versionName versions.publishVersion
   }
 
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
-  }
-
   sourceSets {
     main.res.srcDirs = [
         'src/main/res',
@@ -35,23 +30,9 @@ android {
 }
 
 dependencies {
-  repositories {
-    google()
-  }
   implementation 'com.android.support:appcompat-v7:' + versions.supportLib
   implementation 'com.android.support:support-annotations:' + versions.supportLib
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlin
 }
 
-publish {
-  userOrg = 'drummer-aidan'
-  groupId = 'com.afollestad'
-  artifactId = 'material-cab'
-  publishVersion = versions.publishVersion
-  website = 'https://github.com/afollestad/material-cab'
-  desc =
-      'A simple library for Android, which replaces the stock contextual action bar to allow more customization.'
-}
-repositories {
-  mavenCentral()
-}
+apply from: '../spotless.gradle'

@@ -1,3 +1,8 @@
+/*
+ * Licensed under Apache-2.0
+ *
+ * Designed and developed by Aidan Follestad (@afollestad)
+ */
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package com.afollestad.materialcab
