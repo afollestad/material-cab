@@ -254,8 +254,8 @@ class MaterialCab(
     // Invalidates everything now that a Toolbar definitely exists
     this.title = title
     this.titleColor = titleColor
-    this.subtitle = title
-    this.subtitleColor = titleColor
+    this.subtitle = subtitle
+    this.subtitleColor = subtitleColor
     this.popupTheme = popupTheme
     this.menuRes = menuRes
     this.closeDrawableRes = closeDrawableRes
