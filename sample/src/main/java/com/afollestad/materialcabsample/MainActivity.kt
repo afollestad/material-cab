@@ -6,10 +6,10 @@
 package com.afollestad.materialcabsample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialcab.MaterialCab
 import kotlinx.android.synthetic.main.activity_main.list
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
       title = getString(R.string.x_selected, adapter.selectedCount)
       menuRes = R.menu.menu_cab
 
-      onCreate { cab, menu -> onCabCreated(cab, menu) }
+      onCreate { _, menu -> onCabCreated(menu) }
       onSelection {
         showToast(it.title as String)
         true
@@ -87,10 +87,7 @@ class MainActivity : AppCompatActivity() {
     toast!!.show()
   }
 
-  private fun onCabCreated(
-    cab: MaterialCab,
-    menu: Menu
-  ): Boolean {
+  private fun onCabCreated(menu: Menu): Boolean {
     // Makes the icons in the overflow menu visible
     if (menu.javaClass.simpleName == "MenuBuilder") {
       try {

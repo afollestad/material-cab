@@ -10,24 +10,24 @@ package com.afollestad.materialcab
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.support.annotation.CheckResult
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.DimenRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.IdRes
-import android.support.annotation.MenuRes
-import android.support.annotation.RestrictTo
-import android.support.annotation.RestrictTo.Scope
-import android.support.annotation.StringRes
-import android.support.annotation.StyleRes
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
+import androidx.annotation.CheckResult
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
+import androidx.annotation.RestrictTo
+import androidx.annotation.RestrictTo.Scope
+import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 
 /** @author Aidan Follestad (afollestad) */
 class MaterialCab(
@@ -209,18 +209,19 @@ class MaterialCab(
       if (instance == null) {
         return false
       }
+      with(instance!!) {
+        val canDestroy = destroyCallback?.invoke(this) ?: true
+        if (!canDestroy) {
+          // Callback signaled to block destruction
+          return false
+        }
 
-      val canDestroy = instance?.destroyCallback?.invoke(instance!!) ?: true
-      if (!canDestroy) {
-        // Callback signaled to block destruction
-        return false
+        toolbar?.visibility = View.GONE
+        toolbar = null
+        ctxt = null
+        instance = null
+        return true
       }
-
-      instance?.toolbar?.visibility = View.GONE
-      instance?.toolbar = null
-      instance?.ctxt = null
-      instance = null
-      return true
     }
   }
 
@@ -265,14 +266,12 @@ class MaterialCab(
       visibility = View.VISIBLE
       id = R.id.mcab_toolbar
       setNavigationOnClickListener { destroy() }
-    }
 
-    if (isNew) {
-      createCallback?.invoke(this, toolbar!!.menu)
+      if (isNew) {
+        createCallback?.invoke(this@MaterialCab, menu)
+      }
     }
   }
 
-  override fun onMenuItemClick(item: MenuItem): Boolean {
-    return selectCallback != null && selectCallback!!.invoke(item)
-  }
+  override fun onMenuItemClick(item: MenuItem) = selectCallback?.invoke(item) ?: false
 }
