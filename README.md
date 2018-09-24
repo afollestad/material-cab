@@ -18,7 +18,7 @@ Add Material CAB to your module's `build.gradle` dependencies block:
 ```Gradle
 dependencies {
 
-  implementation 'com.afollestad:material-cab:1.2.0'
+  implementation 'com.afollestad:material-cab:1.3.0'
 }
 ```
 
