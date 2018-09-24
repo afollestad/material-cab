@@ -156,7 +156,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
   super.onCreate(savedInstanceState)
 
   // Returns true if a CAB was restored and is now visible
-  MaterialCab.tryRestore(this, savedInstanceState)
+  MaterialCab.tryRestore(this, savedInstanceState) {
+    // We can't save the animator in the instance state so we set this again here.
+    slideDown()
+  }
 }
 
 override fun onSaveInstanceState(outState: Bundle) {

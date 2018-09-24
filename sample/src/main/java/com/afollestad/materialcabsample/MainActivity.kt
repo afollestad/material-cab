@@ -68,7 +68,9 @@ class MainActivity : AppCompatActivity() {
 
     setSupportActionBar(findViewById(R.id.main_toolbar))
 
-    MaterialCab.tryRestore(this, savedInstanceState)
+    MaterialCab.tryRestore(this, savedInstanceState) {
+      slideDown()
+    }
 
     adapter.restoreState(savedInstanceState) {
       for (i in 0..80) {
