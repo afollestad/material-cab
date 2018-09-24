@@ -117,6 +117,22 @@ MaterialCab.attach(this, R.id.cab_stub) {
       ...
       true // allow destruction?
     }
+    
+    animateOnCreate { view, animator -> 
+      // Animate the view with its animator.
+      // See the source of fadeIn(Long) or slideDown(Long) for an example.
+    }
+    
+    animateOnDestroy { view, animator ->
+      // Animate the view with its animator.
+      // See the source of fadeIn(Long) or slideDown(Long) for an example.
+    }
+    
+    // Sets animateOnCreate and animateOnDestroy to fade the CAB. Duration is optional, 250 is default.
+    fadeIn(durationMs = 250)
+    
+    // Sets animateOnCreate and animateOnDestroy to slide the CAB up/down. Duration is optional, 250 is default.
+    slideDown(durationMs = 250)
 }
 ```
 

@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         adapter.clearSelected()
         true
       }
+
+      slideDown()
     }
   }
 

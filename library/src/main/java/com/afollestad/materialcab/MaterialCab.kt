@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewStub
 import androidx.annotation.CheckResult
@@ -35,10 +36,13 @@ class MaterialCab(
   @IdRes private var attachToId: Int
 ) : Toolbar.OnMenuItemClickListener {
 
-  private var toolbar: Toolbar? = null
   private var createCallback: CreateCallback? = null
   private var selectCallback: SelectCallback? = null
   private var destroyCallback: DestroyCallback? = null
+
+  internal var toolbar: Toolbar? = null
+  internal var createAnimator: CabAnimator? = null
+  internal var destroyAnimator: CabAnimator? = null
 
   var title: String? = null
     set(value) {
@@ -108,7 +112,7 @@ class MaterialCab(
     }
 
   @ColorInt
-  var backgroundColor: Int = context.colorAttr(R.attr.colorPrimary, Color.GRAY)
+  var backgroundColor: Int = context.colorAttr(R.attr.colorPrimaryDark, Color.GRAY)
     set(value) {
       field = value
       toolbar?.setBackgroundColor(value)
@@ -142,6 +146,45 @@ class MaterialCab(
     this.destroyCallback = callback
   }
 
+  fun animateOnCreate(animator: CabAnimator) {
+    this.createAnimator = animator
+  }
+
+  fun animateOnDestroy(animator: CabAnimator) {
+    this.destroyAnimator = animator
+  }
+
+  fun fadeIn(durationMs: Long = 250) {
+    animateOnCreate { view, animator ->
+      view.alpha = 0f
+      animator.alpha(1f)
+          .setDuration(durationMs)
+          .start()
+    }
+    animateOnDestroy { view, animator ->
+      view.alpha = 1f
+      animator.alpha(0f)
+          .setDuration(durationMs)
+          .start()
+    }
+  }
+
+  fun slideDown(durationMs: Long = 200) {
+    animateOnCreate { view, animator ->
+      view.translationY = (-view.measuredHeight).toFloat()
+      animator.translationY(0f)
+          .setDuration(durationMs)
+          .start()
+    }
+    animateOnDestroy { view, animator ->
+      view.translationY = 0f
+      val endTranslation = (-view.measuredHeight).toFloat()
+      animator.translationY(endTranslation)
+          .setDuration(durationMs)
+          .start()
+    }
+  }
+
   private val context
     @CheckResult
     get() = ctxt!!
@@ -157,14 +200,19 @@ class MaterialCab(
       exec: MaterialCab.() -> Unit
     ) {
       val isNew = instance == null
-      if (isNew) instance = MaterialCab(context, attachToId)
-      instance!!.exec()
-      instance!!.inject(isNew)
+      if (isNew) {
+        instance = MaterialCab(context, attachToId)
+      }
+      with(instance!!) {
+        exec()
+        inject(isNew)
+      }
     }
 
     fun tryRestore(
       context: AppCompatActivity,
-      fromState: Bundle?
+      fromState: Bundle?,
+      reconfigure: CabApply? = null
     ): Boolean {
       if (fromState == null || !fromState.containsKey(KEY_ATTACHTO_ID)) {
         return false
@@ -180,6 +228,9 @@ class MaterialCab(
         this.closeDrawableRes = fromState.getInt(KEY_CLOSE_DRAWABLE_RES)
         this.backgroundColor = fromState.getInt(KEY_BACKGROUND_COLOR)
         this.contentInsetStart = fromState.getInt(KEY_CONTENT_INSET_START)
+        if (reconfigure != null) {
+          this.reconfigure()
+        }
       }
       return true
     }
@@ -216,12 +267,26 @@ class MaterialCab(
           return false
         }
 
-        toolbar?.visibility = View.GONE
-        toolbar = null
-        ctxt = null
-        instance = null
+        val animator = this.destroyAnimator
+        if (animator != null) {
+          val view = this.toolbar!!
+          view.animate()
+              .cancel()
+          view.animate()
+              .onAnimationEnd { finalizeDestroy() }
+          animator(view, view.animate())
+        } else {
+          finalizeDestroy()
+        }
         return true
       }
+    }
+
+    internal fun finalizeDestroy() = with(instance!!) {
+      toolbar?.visibility = View.GONE
+      toolbar = null
+      ctxt = null
+      instance = null
     }
   }
 
@@ -263,12 +328,16 @@ class MaterialCab(
     this.contentInsetStart = contentInsetStart
 
     with(toolbar!!) {
-      visibility = View.VISIBLE
+      visibility = VISIBLE
       id = R.id.mcab_toolbar
       setNavigationOnClickListener { destroy() }
 
       if (isNew) {
         createCallback?.invoke(this@MaterialCab, menu)
+        animate()
+            .setListener(null)
+            .cancel()
+        onLayout { createAnimator?.invoke(this, animate()) }
       }
     }
   }
