@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: "com.github.ben-manes.versions"
 apply from: '../dependencies.gradle'
 
 apply from: '../bintrayconfig.gradle'
