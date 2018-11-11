@@ -11,6 +11,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
@@ -36,7 +37,8 @@ class MaterialCab(
   @IdRes private var attachToId: Int
 ) : Toolbar.OnMenuItemClickListener {
 
-  private var createCallback: CreateCallback? = null
+  private var createCallback: CreateUpdateCallback? = null
+  private var updateCallback: CreateUpdateCallback? = null
   private var selectCallback: SelectCallback? = null
   private var destroyCallback: DestroyCallback? = null
 
@@ -111,6 +113,13 @@ class MaterialCab(
       }
     }
 
+  /**
+   * Retrieves the CAB's menu. Note that you can replace the menu entirely by
+   * re-assigning [menuRes], which will re-inflate the menu.
+   */
+  val menu: Menu?
+    get() = toolbar?.menu
+
   @ColorInt
   var backgroundColor: Int = context.colorAttr(R.attr.colorPrimaryDark, Color.GRAY)
     set(value) {
@@ -134,8 +143,12 @@ class MaterialCab(
       }
     }
 
-  fun onCreate(callback: CreateCallback) {
+  fun onCreate(callback: CreateUpdateCallback) {
     this.createCallback = callback
+  }
+
+  fun onUpdate(callback: CreateUpdateCallback) {
+    this.updateCallback = callback
   }
 
   fun onSelection(callback: SelectCallback) {
@@ -337,6 +350,8 @@ class MaterialCab(
             .setListener(null)
             .cancel()
         onLayout { createAnimator?.invoke(this, animate()) }
+      } else {
+        updateCallback?.invoke(this@MaterialCab, menu)
       }
     }
   }

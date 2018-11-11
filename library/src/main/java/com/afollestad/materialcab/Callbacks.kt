@@ -10,7 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewPropertyAnimator
 
-typealias CreateCallback = (cab: MaterialCab, menu: Menu) -> Unit
+typealias CreateUpdateCallback = (cab: MaterialCab, menu: Menu) -> Unit
 
 typealias SelectCallback = (item: MenuItem) -> Boolean
 
