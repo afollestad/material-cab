@@ -203,7 +203,7 @@ class MaterialCab(
       if (isNew) {
         instance = MaterialCab(context, attachToId)
       }
-      with(instance!!) {
+      with(instance ?: return) {
         exec()
         inject(isNew)
       }
@@ -236,10 +236,10 @@ class MaterialCab(
     }
 
     fun saveState(out: Bundle?) {
-      if (out == null || instance == null) {
+      if (out == null) {
         return
       }
-      with(instance!!) {
+      with(instance ?: return) {
         out.putInt(KEY_ATTACHTO_ID, attachToId)
         out.putString(KEY_TITLE, title)
         out.putInt(KEY_TITLE_COLOR, titleColor)
@@ -257,10 +257,7 @@ class MaterialCab(
       get() = instance != null
 
     fun destroy(): Boolean {
-      if (instance == null) {
-        return false
-      }
-      with(instance!!) {
+      with(instance ?: return false) {
         val canDestroy = destroyCallback?.invoke(this) ?: true
         if (!canDestroy) {
           // Callback signaled to block destruction
@@ -269,7 +266,7 @@ class MaterialCab(
 
         val animator = this.destroyAnimator
         if (animator != null) {
-          val view = this.toolbar!!
+          val view = this.toolbar ?: return false
           view.animate()
               .cancel()
           view.animate()
@@ -282,10 +279,12 @@ class MaterialCab(
       }
     }
 
-    internal fun finalizeDestroy() = with(instance!!) {
-      toolbar?.visibility = View.GONE
-      toolbar = null
-      ctxt = null
+    internal fun finalizeDestroy() {
+      instance?.let {
+        it.toolbar?.visibility = View.GONE
+        it.toolbar = null
+        it.ctxt = null
+      }
       instance = null
     }
   }
@@ -327,7 +326,7 @@ class MaterialCab(
     this.backgroundColor = backgroundColor
     this.contentInsetStart = contentInsetStart
 
-    with(toolbar!!) {
+    with(toolbar ?: return) {
       visibility = VISIBLE
       id = R.id.mcab_toolbar
       setNavigationOnClickListener { destroy() }
