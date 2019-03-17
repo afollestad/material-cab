@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afollestad.materialcab
+package com.afollestad.materialcab.internal
 
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
 import androidx.annotation.AttrRes
@@ -26,6 +28,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -51,21 +55,10 @@ import androidx.core.graphics.drawable.DrawableCompat
   }
 }
 
-internal fun Context.integer(
-  @AttrRes attr: Int,
-  fallback: Int
-): Int {
-  val a = theme.obtainStyledAttributes(intArrayOf(attr))
-  try {
-    return a.getInt(0, fallback)
-  } finally {
-    a.recycle()
-  }
-}
-
-internal fun Context.string(@StringRes res: Int): String {
-  return resources.getString(res)
-}
+internal fun Context.string(
+  @StringRes res: Int,
+  vararg args: Any
+): String = resources.getString(res, args)
 
 internal fun Drawable.tint(@ColorInt color: Int): Drawable {
   val wrapped = DrawableCompat.wrap(this)
@@ -83,6 +76,7 @@ internal inline fun ViewPropertyAnimator.onAnimationEnd(
   setListener(object : AnimatorListenerAdapter() {
     override fun onAnimationEnd(animation: android.animation.Animator) {
       continuation(animation)
+      setListener(null)
     }
   })
 }
@@ -95,4 +89,56 @@ internal inline fun View.onLayout(crossinline callback: (view: View) -> Unit) {
       viewTreeObserver.removeGlobalOnLayoutListener(this)
     }
   })
+}
+
+internal fun Context.requireOneString(
+  literal: String?,
+  @StringRes res: Int?,
+  vararg args: Any
+): String {
+  return when {
+    literal != null -> literal
+    res != null -> string(res)
+    else -> throw IllegalStateException(
+        "You must provide either a literal or resource value."
+    )
+  }
+}
+
+internal fun Context.requireOneDimen(
+  @Px literal: Int?,
+  @DimenRes res: Int?
+): Int {
+  return when {
+    literal != null -> literal
+    res != null -> dimen(res)
+    else -> throw IllegalStateException(
+        "You must provide either a literal or resource value."
+    )
+  }
+}
+
+internal fun Context.requireOneColor(
+  @ColorInt literal: Int?,
+  @ColorRes res: Int?
+): Int {
+  return when {
+    literal != null -> literal
+    res != null -> color(res)
+    else -> throw IllegalStateException(
+        "You must provide either a literal or resource value."
+    )
+  }
+}
+
+internal fun Context.idName(@IdRes res: Int): String {
+  return resources.getResourceName(res)
+}
+
+internal inline fun <reified T : View> ViewGroup.inflate(@LayoutRes res: Int): T {
+  return LayoutInflater.from(context).inflate(res, this, false) as T
+}
+
+internal fun View.removeSelf() {
+  (parent as? ViewGroup)?.removeView(this)
 }

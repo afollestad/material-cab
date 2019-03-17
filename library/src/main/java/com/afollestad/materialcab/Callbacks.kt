@@ -19,13 +19,33 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewPropertyAnimator
+import com.afollestad.materialcab.attached.AttachedCab
 
-typealias CreateUpdateCallback = (cab: MaterialCab, menu: Menu) -> Unit
+typealias CreateUpdateCallback = (cab: AttachedCab, menu: Menu) -> Unit
 
 typealias SelectCallback = (item: MenuItem) -> Boolean
 
-typealias DestroyCallback = (cab: MaterialCab) -> Boolean
+typealias DestroyCallback = (cab: AttachedCab) -> Boolean
 
 typealias CabAnimator = (view: View, animator: ViewPropertyAnimator) -> Unit
 
-typealias CabApply = MaterialCab.() -> Unit
+typealias CabApply = AttachedCab.() -> Unit
+
+internal fun List<CreateUpdateCallback>.invokeAll(
+  cab: AttachedCab,
+  menu: Menu
+) = forEach { it(cab, menu) }
+
+internal fun List<SelectCallback>.invokeAll(menuItem: MenuItem): Boolean {
+  if (isEmpty()) {
+    return false
+  }
+  return all { it(menuItem) }
+}
+
+internal fun List<DestroyCallback>.invokeAll(cab: AttachedCab): Boolean {
+  if (isEmpty()) {
+    return true
+  }
+  return all { it(cab) }
+}

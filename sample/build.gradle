@@ -29,6 +29,8 @@ dependencies {
   implementation 'androidx.recyclerview:recyclerview:' + versions.androidx
 
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlin
+
+  implementation 'com.afollestad:recyclical:' + versions.recyclical
 }
 
 apply from: '../spotless.gradle'

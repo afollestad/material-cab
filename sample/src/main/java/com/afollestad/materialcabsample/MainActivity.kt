@@ -17,88 +17,85 @@ package com.afollestad.materialcabsample
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialcab.MaterialCab
+import com.afollestad.materialcab.attached.AttachedCab
+import com.afollestad.materialcab.attached.destroy
+import com.afollestad.materialcab.attached.isActive
+import com.afollestad.recyclical.datasource.emptySelectableDataSource
+import com.afollestad.recyclical.setup
+import com.afollestad.recyclical.viewholder.isSelected
+import com.afollestad.recyclical.viewholder.toggleSelection
+import com.afollestad.recyclical.withItem
 import kotlinx.android.synthetic.main.activity_main.list
 
 /** @author Aidan Follestad (afollestad) */
 class MainActivity : AppCompatActivity() {
-
-  private lateinit var adapter: MainAdapter
-  private var toast: Toast? = null
-
-  private fun onItemClicked(
-    index: Int,
-    longClick: Boolean
-  ) {
-    if (longClick || MaterialCab.isActive) {
-      onIconClicked(index)
-      return
-    }
-    showToast(adapter.getItem(index))
+  private val dataSource = emptySelectableDataSource().apply {
+    onSelectionChange { invalidateCab() }
   }
-
-  private fun onIconClicked(index: Int) {
-    adapter.toggleSelected(index)
-    if (adapter.selectedCount == 0) {
-      MaterialCab.destroy()
-      return
-    }
-
-    MaterialCab.attach(this, R.id.cab_stub) {
-      title = getString(R.string.x_selected, adapter.selectedCount)
-      menuRes = R.menu.menu_cab
-
-      onCreate { _, menu -> onCabCreated(menu) }
-      onSelection {
-        showToast(it.title as String)
-        true
-      }
-      onDestroy {
-        adapter.clearSelected()
-        true
-      }
-
-      slideDown()
-    }
-  }
+  private var mainCab: AttachedCab? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-
-    adapter = MainAdapter(
-        { i, b -> onItemClicked(i, b) },
-        { onIconClicked(it) })
-
-    list.layoutManager = LinearLayoutManager(this)
-    list.adapter = adapter
-
     setSupportActionBar(findViewById(R.id.main_toolbar))
 
-    MaterialCab.tryRestore(this, savedInstanceState) {
-      slideDown()
-    }
+    dataSource.set(
+        IntArray(100) { it + 1 }
+            .map { MainItem("Item #$it") }
+    )
 
-    adapter.restoreState(savedInstanceState) {
-      for (i in 0..80) {
-        adapter.add("Item $i")
+    list.setup {
+      withDataSource(dataSource)
+      withItem<MainItem>(R.layout.listitem_main) {
+        onBind(::MainViewHolder) { index, item ->
+          itemView.isActivated = isSelected()
+          title.text = item.title
+          icon.setOnClickListener {
+            dataSource.toggleSelectionAt(index)
+          }
+        }
+        onClick { _, item ->
+          if (hasSelection()) {
+            toggleSelection()
+          } else {
+            toast("Clicked $item")
+          }
+        }
+        onLongClick { _, _ -> toggleSelection() }
       }
     }
   }
 
-  override fun onSaveInstanceState(outState: Bundle) {
-    super.onSaveInstanceState(outState)
-    MaterialCab.saveState(outState)
-    adapter.saveState(outState)
-  }
+  private fun invalidateCab() {
+    if (!dataSource.hasSelection()) {
+      mainCab?.destroy()
+      return
+    }
 
-  private fun showToast(text: String) {
-    toast?.cancel()
-    toast = Toast.makeText(this, text, Toast.LENGTH_SHORT)
-    toast!!.show()
+    if (mainCab.isActive()) {
+      mainCab?.apply {
+        title(literal = getString(R.string.x_selected, dataSource.getSelectionCount()))
+      }
+    } else {
+      mainCab = MaterialCab.create(this, R.id.cab_stub) {
+        title(literal = getString(R.string.x_selected, dataSource.getSelectionCount()))
+        menu(R.menu.menu_cab)
+        popupTheme(R.style.ThemeOverlay_AppCompat_Light)
+        slideDown()
+
+        onCreate { _, menu -> onCabCreated(menu) }
+        onSelection {
+          toast(it.title as String)
+          true
+        }
+        onDestroy {
+          dataSource.deselectAll()
+          true
+        }
+      }
+    }
   }
 
   private fun onCabCreated(menu: Menu): Boolean {
@@ -116,7 +113,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   override fun onBackPressed() {
-    if (!MaterialCab.destroy()) {
+    if (!mainCab.destroy()) {
       super.onBackPressed()
     }
   }
