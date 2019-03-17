@@ -26,7 +26,7 @@ dependencies {
   implementation project(':library')
 
   implementation 'androidx.appcompat:appcompat:' + versions.androidx
-  implementation 'androidx.recyclerview:recyclerview:' + versions.androidx
+  implementation 'androidx.recyclerview:recyclerview:' + versions.recyclerView
 
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlin
 
