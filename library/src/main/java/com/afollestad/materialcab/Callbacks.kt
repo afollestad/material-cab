@@ -21,7 +21,7 @@ import android.view.View
 import android.view.ViewPropertyAnimator
 import com.afollestad.materialcab.attached.AttachedCab
 
-typealias CreateUpdateCallback = (cab: AttachedCab, menu: Menu) -> Unit
+typealias CreateCallback = (cab: AttachedCab, menu: Menu) -> Unit
 
 typealias SelectCallback = (item: MenuItem) -> Boolean
 
@@ -31,7 +31,7 @@ typealias CabAnimator = (view: View, animator: ViewPropertyAnimator) -> Unit
 
 typealias CabApply = AttachedCab.() -> Unit
 
-internal fun List<CreateUpdateCallback>.invokeAll(
+internal fun List<CreateCallback>.invokeAll(
   cab: AttachedCab,
   menu: Menu
 ) = forEach { it(cab, menu) }

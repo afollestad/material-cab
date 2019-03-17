@@ -18,14 +18,13 @@ package com.afollestad.materialcabsample
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import com.afollestad.materialcab.MaterialCab
 import com.afollestad.materialcab.attached.AttachedCab
 import com.afollestad.materialcab.attached.destroy
 import com.afollestad.materialcab.attached.isActive
+import com.afollestad.materialcab.createCab
 import com.afollestad.recyclical.datasource.emptySelectableDataSource
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.viewholder.isSelected
-import com.afollestad.recyclical.viewholder.toggleSelection
 import com.afollestad.recyclical.withItem
 import kotlinx.android.synthetic.main.activity_main.list
 
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         title(literal = getString(R.string.x_selected, dataSource.getSelectionCount()))
       }
     } else {
-      mainCab = MaterialCab.create(this, R.id.cab_stub) {
+      mainCab = createCab(R.id.cab_stub) {
         title(literal = getString(R.string.x_selected, dataSource.getSelectionCount()))
         menu(R.menu.menu_cab)
         popupTheme(R.style.ThemeOverlay_AppCompat_Light)

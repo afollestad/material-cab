@@ -25,7 +25,7 @@ import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import com.afollestad.materialcab.CabAnimator
-import com.afollestad.materialcab.CreateUpdateCallback
+import com.afollestad.materialcab.CreateCallback
 import com.afollestad.materialcab.DestroyCallback
 import com.afollestad.materialcab.SelectCallback
 
@@ -84,10 +84,7 @@ interface AttachedCab {
   fun getMenu(): Menu
 
   /** Sets a callback invoked when the CAB is being created/shown. */
-  fun onCreate(callback: CreateUpdateCallback)
-
-  /** Sets a callback invoked when the CAB's properties are invalidated. */
-  fun onUpdate(callback: CreateUpdateCallback)
+  fun onCreate(callback: CreateCallback)
 
   /** Sets a callback invoked when a CAB menu item is selected. */
   fun onSelection(callback: SelectCallback)

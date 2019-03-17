@@ -15,6 +15,7 @@
  */
 package com.afollestad.materialcab.attached
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.Menu
@@ -27,10 +28,9 @@ import androidx.annotation.MenuRes
 import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.afollestad.materialcab.CabAnimator
-import com.afollestad.materialcab.CreateUpdateCallback
+import com.afollestad.materialcab.CreateCallback
 import com.afollestad.materialcab.DestroyCallback
 import com.afollestad.materialcab.R
 import com.afollestad.materialcab.SelectCallback
@@ -47,10 +47,9 @@ import com.afollestad.materialcab.invokeAll
 
 /** @author Aidan Follestad (@afollestad) */
 class RealAttachedCab internal constructor(
-  private var context: AppCompatActivity?,
+  private var context: Activity?,
   private var toolbar: Toolbar?,
-  private val replacedViewStub: Boolean,
-  internal val key: String
+  private val replacedViewStub: Boolean
 ) : AttachedCab {
   init {
     titleColor(literal = Color.WHITE)
@@ -58,7 +57,7 @@ class RealAttachedCab internal constructor(
   }
 
   private var isDestroying: Boolean = false
-  private val attachedContext: AppCompatActivity
+  private val attachedContext: Activity
     get() = context ?: throw IllegalStateException("Contextual action bar is already destroyed.")
   private val attachedToolbar: Toolbar
     get() = toolbar ?: throw IllegalStateException("Contextual action bar is already destroyed.")
@@ -66,8 +65,7 @@ class RealAttachedCab internal constructor(
   private var titleTextColor: Int = Color.WHITE
   private var closeDrawable: Drawable = attachedContext.drawable(R.drawable.mcab_nav_close)
 
-  private var createCallbacks = mutableListOf<CreateUpdateCallback>()
-  internal var updateCallbacks = mutableListOf<CreateUpdateCallback>()
+  private var createCallbacks = mutableListOf<CreateCallback>()
   private var selectCallbacks = mutableListOf<SelectCallback>()
   private var destroyCallbacks = mutableListOf<DestroyCallback>()
 
@@ -160,12 +158,8 @@ class RealAttachedCab internal constructor(
 
   override fun getMenu(): Menu = attachedToolbar.menu
 
-  override fun onCreate(callback: CreateUpdateCallback) {
+  override fun onCreate(callback: CreateCallback) {
     this.createCallbacks.add(callback)
-  }
-
-  override fun onUpdate(callback: CreateUpdateCallback) {
-    this.updateCallbacks.add(callback)
   }
 
   override fun onSelection(callback: SelectCallback) {
