@@ -76,12 +76,16 @@ class RealAttachedCab internal constructor(
 
   internal fun show() = attachedToolbar.run {
     isDestroying = false
+    translationY = 0f
+    alpha = 1f
+
     navigationIcon = closeDrawable.tint(titleTextColor)
     setNavigationOnClickListener { destroy() }
     createCallbacks.invokeAll(this@RealAttachedCab, menu)
     animate()
         .setListener(null)
         .cancel()
+
     visibility = VISIBLE
     bringToFront()
     onLayout { createAnimator?.invoke(this, animate()) }

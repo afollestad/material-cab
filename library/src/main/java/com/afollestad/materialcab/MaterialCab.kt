@@ -49,10 +49,14 @@ object MaterialCab {
     }
 
     val attachToView = context.findViewById<View>(attachToId)
-    var replacedViewStub = false
+    var replacedViewStub = true
     val toolbar: Toolbar = when (attachToView) {
+      is Toolbar -> {
+        // This is most likely a previous destroyed CAB that
+        // was inflated into a ViewStub.
+        attachToView
+      }
       is ViewStub -> {
-        replacedViewStub = true
         // We assign an ID so that we can find it again later
         // when re-attaching, since destroying won't remove this,
         // only hide it.
@@ -61,15 +65,11 @@ object MaterialCab {
         attachToView.inflate() as Toolbar
       }
       is ViewGroup -> {
+        replacedViewStub = false
         attachToView.inflate<Toolbar>(R.layout.mcab_toolbar)
             .also {
               attachToView.addView(it)
             }
-      }
-      is Toolbar -> {
-        // This is most likely a previous destroyed CAB that
-        // was inflated into a ViewStub.
-        attachToView
       }
       else -> throw IllegalStateException(
           "Unable to attach to $attachToName, it's not a ViewStub or ViewGroup."
