@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import android.view.ViewStub
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.afollestad.materialcab.attached.AttachedCab
 import com.afollestad.materialcab.attached.RealAttachedCab
 import com.afollestad.materialcab.internal.idName
@@ -74,4 +75,17 @@ fun Activity.createCab(
     exec()
     show()
   }
+}
+
+/**
+ * Calls [createCab] on the Fragment's Activity.
+ */
+fun Fragment.createCab(
+  @IdRes attachToId: Int,
+  exec: CabApply
+): AttachedCab {
+  val context = activity ?: throw IllegalStateException(
+      "Fragment ${this::class.java.name} is not attached to an Activity."
+  )
+  return context.createCab(attachToId, exec)
 }

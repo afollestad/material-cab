@@ -28,7 +28,7 @@ Add Material CAB to your module's `build.gradle` dependencies block:
 ```Gradle
 dependencies {
 
-  implementation 'com.afollestad:material-cab:2.0.0'
+  implementation 'com.afollestad:material-cab:2.0.1'
 }
 ```
 
@@ -76,6 +76,8 @@ class MyActivity : AppCompatActivity() {
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    
+    // createCab is an extension on Activity/Fragment
     cab = createCab(R.id.cab_stub) {
         title(R.string.some_title)
         menu(R.menu.some_menu)
@@ -161,10 +163,10 @@ can manually call it whenever you'd like as well:
 ```kotlin
 val cab: AttachedCab? = // ...
 
-val isDestroyed = cab.isDestroyed() // null or destroyed
-val isActive = cab.isActive() // not destroyed
+val isDestroyed = cab.isDestroyed() // true if null or destroyed
+val isActive = cab.isActive() // true if not destroyed
 
-cab.destroy() 
+cab.destroy()
 ```
 
 This will invoke the onDestroy callback. If the callback returns true, the CAB is destroyed.
