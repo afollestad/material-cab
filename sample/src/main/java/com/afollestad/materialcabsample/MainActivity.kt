@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     list.setup {
       withDataSource(dataSource)
-      withItem<MainItem>(R.layout.listitem_main) {
+      withItem<MainItem, MainViewHolder>(R.layout.listitem_main) {
         onBind(::MainViewHolder) { index, item ->
           itemView.isActivated = isSelected()
           title.text = item.title
@@ -55,14 +55,14 @@ class MainActivity : AppCompatActivity() {
             dataSource.toggleSelectionAt(index)
           }
         }
-        onClick { _, item ->
+        onClick {
           if (hasSelection()) {
             toggleSelection()
           } else {
             toast("Clicked $item")
           }
         }
-        onLongClick { _, _ -> toggleSelection() }
+        onLongClick { toggleSelection() }
       }
     }
   }
