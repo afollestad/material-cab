@@ -38,13 +38,13 @@ interface AttachedCab {
   /** Sets the CAB's title. */
   fun title(
     @StringRes res: Int? = null,
-    literal: String? = null
+    literal: CharSequence? = null
   )
 
   /** Sets the CAB's subtitle. */
   fun subtitle(
     @StringRes res: Int? = null,
-    literal: String? = null
+    literal: CharSequence? = null
   )
 
   /** Sets the CAB's title text color. */

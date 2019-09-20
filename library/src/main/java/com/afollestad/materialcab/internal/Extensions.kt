@@ -91,11 +91,11 @@ internal inline fun View.onLayout(crossinline callback: (view: View) -> Unit) {
   })
 }
 
-internal fun Context.requireOneString(
-  literal: String?,
+internal fun Context.requireOneCharSequence(
+  literal: CharSequence?,
   @StringRes res: Int?,
   vararg args: Any
-): String {
+): CharSequence {
   return when {
     literal != null -> literal
     res != null -> string(res)

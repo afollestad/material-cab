@@ -39,9 +39,9 @@ import com.afollestad.materialcab.internal.drawable
 import com.afollestad.materialcab.internal.onAnimationEnd
 import com.afollestad.materialcab.internal.onLayout
 import com.afollestad.materialcab.internal.removeSelf
+import com.afollestad.materialcab.internal.requireOneCharSequence
 import com.afollestad.materialcab.internal.requireOneColor
 import com.afollestad.materialcab.internal.requireOneDimen
-import com.afollestad.materialcab.internal.requireOneString
 import com.afollestad.materialcab.internal.tint
 import com.afollestad.materialcab.invokeAll
 
@@ -91,16 +91,16 @@ class RealAttachedCab internal constructor(
 
   override fun title(
     @StringRes res: Int?,
-    literal: String?
+    literal: CharSequence?
   ) {
-    attachedToolbar.title = attachedContext.requireOneString(literal, res)
+    attachedToolbar.title = attachedContext.requireOneCharSequence(literal, res)
   }
 
   override fun subtitle(
     @StringRes res: Int?,
-    literal: String?
+    literal: CharSequence?
   ) {
-    attachedToolbar.subtitle = attachedContext.requireOneString(literal, res)
+    attachedToolbar.subtitle = attachedContext.requireOneCharSequence(literal, res)
   }
 
   override fun titleColor(
