@@ -1,7 +1,7 @@
 # Material Contextual Action Bar
 
 [ ![jCenter](https://api.bintray.com/packages/drummer-aidan/maven/material-cab/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-cab/_latestVersion)
-[![Build Status](https://img.shields.io/travis/afollestad/material-cab.svg?style=flat-square)](https://travis-ci.org/afollestad/material-cab)
+[![Android CI](https://github.com/afollestad/material-cab/workflows/Android%20CI/badge.svg)](https://github.com/afollestad/material-cab/actions?query=workflow%3A%22Android+CI%22)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 <img src="https://raw.githubusercontent.com/afollestad/material-cab/master/art/newshowcase.png" width="250px" />
