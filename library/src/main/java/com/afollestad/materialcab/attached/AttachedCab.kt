@@ -83,6 +83,12 @@ interface AttachedCab {
   /** Gets the CAB's menu. */
   fun getMenu(): Menu
 
+  /** Sets the CAB's menu icon color. */
+  fun menuIconColor(
+          @ColorRes res: Int? = null,
+          @ColorInt literal: Int? = null
+  )
+
   /** Sets a callback invoked when the CAB is being created/shown. */
   fun onCreate(callback: CreateCallback)
 
