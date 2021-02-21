@@ -1,6 +1,6 @@
 # Material Contextual Action Bar
 
-[ ![jCenter](https://api.bintray.com/packages/drummer-aidan/maven/material-cab/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-cab/_latestVersion)
+[ ![Maven Central](https://img.shields.io/maven-central/v/com.afollestad.rxkprefs/rxjava?style=flat&label=Maven Central) ](https://repo1.maven.org/maven2/com/afollestad/material-cab)
 [![Android CI](https://github.com/afollestad/material-cab/workflows/Android%20CI/badge.svg)](https://github.com/afollestad/material-cab/actions?query=workflow%3A%22Android+CI%22)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
@@ -21,7 +21,7 @@ and a toolbar is used, allowing views to be be placed over and under it.
 
 ## Gradle Dependency
 
-[ ![jCenter](https://api.bintray.com/packages/drummer-aidan/maven/material-cab/images/download.svg) ](https://bintray.com/drummer-aidan/maven/material-cab/_latestVersion)
+[ ![Maven Central](https://img.shields.io/maven-central/v/com.afollestad.rxkprefs/rxjava?style=flat&label=Maven Central) ](https://repo1.maven.org/maven2/com/afollestad/material-cab)
 
 Add Material CAB to your module's `build.gradle` dependencies block:
 
