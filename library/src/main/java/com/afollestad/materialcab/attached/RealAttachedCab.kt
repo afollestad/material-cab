@@ -34,6 +34,7 @@ import com.afollestad.materialcab.CreateCallback
 import com.afollestad.materialcab.DestroyCallback
 import com.afollestad.materialcab.R
 import com.afollestad.materialcab.SelectCallback
+import com.afollestad.materialcab.internal.*
 import com.afollestad.materialcab.internal.colorAttr
 import com.afollestad.materialcab.internal.drawable
 import com.afollestad.materialcab.internal.onAnimationEnd
@@ -157,6 +158,12 @@ class RealAttachedCab internal constructor(
   }
 
   override fun getMenu(): Menu = attachedToolbar.menu
+
+  override fun menuIconColor(res: Int?, literal: Int?) {
+    val color = attachedContext.requireOneColor(literal, res)
+    attachedToolbar.menu.tintAllIcons(color)
+    attachedToolbar.overflowIcon = attachedToolbar.overflowIcon?.tint(color)
+  }
 
   override fun onCreate(callback: CreateCallback) {
     this.createCallbacks.add(callback)

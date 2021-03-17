@@ -18,11 +18,7 @@ package com.afollestad.materialcab.internal
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewPropertyAnimator
-import android.view.ViewTreeObserver
+import android.view.*
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -141,4 +137,18 @@ internal inline fun <reified T : View> ViewGroup.inflate(@LayoutRes res: Int): T
 
 internal fun View.removeSelf() {
   (parent as? ViewGroup)?.removeView(this)
+}
+
+internal fun Menu.tintAllIcons(color: Int) {
+  for (i in 0 until this.size()) {
+    val item = this.getItem(i)
+    item.tintMenuItemIcon(color)
+  }
+}
+
+internal fun MenuItem.tintMenuItemIcon(color: Int) {
+  val drawable = this.icon
+  if (drawable != null) {
+    this.icon = drawable.tint(color)
+  }
 }
